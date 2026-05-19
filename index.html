@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#064e3b">
+  <meta name="author" content="Jorge Lizarazo, Martin Boullhesen, Maria Soledad Gaston, Mauricio Akmentins">
+  <meta name="project" content="TelmatoFinder">
+  <meta name="description" content="Local browser-based Telmatobius rubigo acoustic detector and post-edition tool.">
+  <title>TelmatoFinder | Local Acoustic Analysis</title>
+  <link rel="icon" href="favicon.ico" sizes="any">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icon.png">
+  <link rel="manifest" href="site.webmanifest">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/onnxruntime-web/dist/ort.min.js"></script>
+  <script defer src="https://unpkg.com/lucide@latest"></script>
+  <script defer src="js/app.js"></script>
+</head>
+<body class="min-h-screen bg-slate-50 text-slate-900 font-sans pb-12 relative overflow-x-hidden">
+  <div id="welcomeModal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-md z-[200] flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl shadow-2xl max-w-lg w-full overflow-hidden p-8 text-center flex flex-col max-h-[90vh]">
+      <div class="overflow-y-auto no-scrollbar pb-4">
+        <div class="modal-logo-row">
+          <img src="img/logo_telmatofinder_horizontal.svg" alt="TelmatoFinder" class="modal-project-logo">
+          <img src="img/wildlabs-logo-wide-black.svg" alt="WILDLABS" class="modal-wildlabs-logo">
+        </div>
+        <div class="w-20 h-20 bg-emerald-50 text-emerald-700 rounded-full flex items-center justify-center mx-auto mb-6 shadow-inner border border-emerald-100">
+          <i data-lucide="shield-check" class="w-10 h-10"></i>
+        </div>
+        <h2 class="text-2xl font-black text-slate-800 mb-6" data-i18n="welcomeTitle">Bienvenido a TelmatoFinder</h2>
+        <div class="text-sm text-slate-600 space-y-4 mb-6 text-left bg-slate-50 p-6 rounded-xl border border-slate-200 leading-relaxed">
+          <p data-i18n="welcomeP1">La aplicación está alojada como un sitio web normal, pero el modelo y análisis acústico se ejecutan dentro de tu navegador utilizando ONNX Runtime Web.</p>
+          <p data-i18n="welcomeP2">Al subir tus audios, tu navegador ejecuta la inferencia localmente. Ningún archivo o dato es enviado a servidores externos.</p>
+          <a class="project-video-link" href="https://www.youtube.com/watch?v=uKD3QeTk97A&t=146s" target="_blank" rel="noopener noreferrer">
+            <span class="project-video-icon"><i data-lucide="play" class="w-4 h-4"></i></span>
+            <span data-i18n="projectVideo">Si quieres saber más del proyecto, mira este video.</span>
+          </a>
+        </div>
+        <div id="modalLanguageButtons" class="flex justify-center gap-3 mb-6"></div>
+      </div>
+      <div class="flex gap-4 pt-4 border-t border-slate-100">
+        <button id="declineTermsButton" class="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold py-3 rounded-xl transition" data-i18n="btnDecline">Declinar</button>
+        <button id="acceptTermsButton" class="flex-[2] bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-3 rounded-xl transition shadow-lg shadow-emerald-200" data-i18n="btnAccept">Aceptar y Continuar</button>
+      </div>
+      <div id="declineMessage" class="hidden mt-4 text-rose-700 bg-rose-50 p-4 rounded-xl border border-rose-200 font-bold flex-col items-center gap-2 text-sm">
+        <i data-lucide="alert-triangle" class="w-5 h-5"></i>
+        <span data-i18n="declineMsg">Debes aceptar los términos de procesamiento local para utilizar esta herramienta.</span>
+      </div>
+    </div>
+  </div>
+
+  <header class="relative w-full overflow-hidden bg-slate-900 shadow-md border-b border-emerald-900/50">
+    <img src="img/pozuelos.png" alt="Cuenca de la Laguna de los Pozuelos, Jujuy" class="hero-bg absolute inset-0 w-full h-full object-cover opacity-60">
+    <div class="absolute inset-0 bg-gradient-to-b from-slate-900/90 via-slate-900/60 to-slate-900/80"></div>
+
+    <div class="relative z-10 w-full max-w-7xl mx-auto flex flex-col min-h-[14rem] md:min-h-[18rem]">
+      <div class="p-4 sm:p-6 lg:px-8 flex justify-start">
+        <div class="flex flex-wrap items-center gap-3 bg-white/10 backdrop-blur-md p-1.5 rounded-lg border border-white/10 shadow-sm">
+          <a href="https://wildlabs.net/" target="_blank" rel="noopener noreferrer" class="hover:scale-110 transition-transform"><img src="img/wildlabs-logo-wide-black.svg" alt="WILDLABS" class="partner-logo partner-logo-wildlabs"></a>
+          <a href="https://www.arm.com/" target="_blank" rel="noopener noreferrer" class="hover:scale-110 transition-transform"><img src="img/ARM.svg" alt="Arm" class="partner-logo"></a>
+          <a href="https://www.conicet.gov.ar/?lan=en" class="hover:scale-110 transition-transform"><img src="img/CONICET.svg" alt="EECO" class="partner-logo"></a>
+          <a href="https://www.unju.edu.ar/" class="hover:scale-110 transition-transform"><img src="img/logo_unju_800.svg" alt="Instituto de Investigaciones de Biodiversidad de Argentina" class="partner-logo"></a>
+          <div class="h-5 w-px bg-white/30 hidden sm:block mx-1"></div>
+          <a href="https://www.icesi.edu.co/" target="_blank" rel="noopener noreferrer" class="hover:scale-110 transition-transform"><img src="img/Logo_universidad_icesi.svg" alt="Universidad Icesi" class="partner-logo"></a>
+          <a href="https://www.uwo.ca/" target="_blank" rel="noopener noreferrer" class="hover:scale-110 transition-transform"><img src="img/western_university_canada_logo.svg" alt="Western University" class="partner-logo"></a>
+        </div>
+      </div>
+
+      <div class="flex-1 flex flex-col justify-end px-4 sm:px-6 lg:px-8 pb-8 pt-4">
+        <div class="flex items-center gap-3 flex-wrap">
+          <img src="img/logo_telmatofinder_horizontal.svg" alt="TelmatoFinder" class="project-logo-hero">
+          <h1 class="sr-only">TelmatoFinder</h1>
+          <button id="privacyInfoButton" class="ml-1 text-emerald-200 hover:text-white transition flex items-center justify-center bg-emerald-500/30 backdrop-blur-md rounded-full p-2 border border-emerald-400/50 shadow-sm" title="Local processing information">
+            <i data-lucide="shield-check" class="w-6 h-6"></i>
+          </button>
+        </div>
+        <p class="text-base md:text-lg font-medium text-emerald-200 mt-2 drop-shadow-md max-w-xl">
+          <span data-i18n="subtitle">Análisis Acústico Local</span>
+          <span>&bull;</span>
+          <span class="opacity-80 font-normal italic" data-i18n="landscapeTitle">Cuenca de la Laguna de los Pozuelos, Jujuy</span>
+        </p>
+        <p class="text-xs md:text-sm text-emerald-200/80 mt-1.5 font-medium drop-shadow-sm">
+          Authors App: Jorge Lizarazo, Martin Boullhesen, Maria Soledad Gaston, Mauricio Akmentins.
+        </p>
+      </div>
+    </div>
+  </header>
+
+  <nav class="w-full bg-white border-b border-slate-200 shadow-sm relative z-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-wrap items-center justify-end gap-4">
+      <button id="loadExamplesButton" class="flex items-center gap-2 px-4 py-2 text-sm text-emerald-700 bg-emerald-50 rounded-lg border border-emerald-200 hover:bg-emerald-100 transition font-bold shadow-sm">
+        <i data-lucide="folder-open" class="w-4 h-4"></i>
+        <span data-i18n="loadExamples">Cargar ejemplos</span>
+      </button>
+      <div class="relative group">
+        <button id="languageTrigger" class="flex items-center gap-2 bg-slate-50 px-4 py-2 rounded-lg border border-slate-200 text-sm font-medium hover:bg-emerald-50 transition text-slate-700 shadow-sm">
+          <i data-lucide="globe" class="w-4 h-4 text-emerald-700"></i>
+          <span id="languageLabel">🇦🇷 Español</span>
+        </button>
+        <div id="languageMenu" class="absolute right-0 mt-1 w-44 bg-white rounded-xl shadow-xl border border-slate-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50 overflow-hidden"></div>
+      </div>
+      <button id="clearAllButton" class="flex items-center gap-2 px-4 py-2 text-sm text-rose-600 bg-white rounded-lg border border-rose-200 hover:bg-rose-50 transition font-medium shadow-sm">
+        <i data-lucide="trash-2" class="w-4 h-4 text-rose-500"></i>
+        <span class="hidden sm:inline" data-i18n="clearAll">Limpiar Todo</span>
+      </button>
+    </div>
+  </nav>
+
+  <div id="privacyPopup" class="hidden fixed inset-0 bg-slate-900/40 backdrop-blur-sm flex items-center justify-center z-[100] px-4">
+    <div class="bg-white rounded-2xl shadow-xl border border-slate-200 max-w-md w-full p-6">
+      <div class="flex justify-between items-start mb-4">
+        <div class="bg-emerald-100 text-emerald-700 p-2 rounded-xl"><i data-lucide="shield-check" class="w-7 h-7"></i></div>
+        <button id="closePrivacyButton" class="text-slate-400 hover:text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-full p-1 transition"><i data-lucide="x" class="w-5 h-5"></i></button>
+      </div>
+      <h3 class="text-xl font-bold text-slate-800 mb-2" data-i18n="privacyTitle">Procesamiento 100% Local</h3>
+      <p class="text-slate-600 text-sm leading-relaxed mb-6" data-i18n="privacyDesc">Todos los audios y modelos se ejecutan directamente en la memoria del navegador mediante ONNX Runtime Web.</p>
+      <button id="privacyOkButton" class="w-full bg-slate-800 text-white font-medium py-2.5 rounded-lg hover:bg-slate-900 transition shadow-sm" data-i18n="close">Cerrar</button>
+    </div>
+  </div>
+
+  <aside class="fixed bottom-6 left-6 z-50 bg-white shadow-xl border border-slate-200 rounded-xl p-3 flex items-center gap-3 text-xs max-w-xs hover:shadow-2xl transition">
+    <div id="onnxIcon" class="p-2 rounded-lg bg-slate-100 text-slate-400"><i data-lucide="cpu" class="w-5 h-5"></i></div>
+    <div class="flex-1">
+      <p class="font-bold text-slate-700 leading-tight" data-i18n="localEngine">Motor ONNX</p>
+      <label class="text-emerald-700 hover:underline cursor-pointer text-[11px] block mt-0.5 font-medium truncate w-32">
+        <span id="modelLabel" data-i18n="loadModel">Cargar .onnx</span>
+        <input id="modelInput" type="file" class="hidden" accept=".onnx">
+      </label>
+      <p id="modelStatus" class="text-[10px] text-slate-400 mt-0.5">model.onnx</p>
+    </div>
+    <div id="onnxDot" class="w-2.5 h-2.5 rounded-full bg-amber-400 animate-pulse shadow-inner"></div>
+  </aside>
+
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+    <section class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div class="lg:col-span-2 bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden flex flex-col h-full">
+        <div class="border-b border-slate-200 bg-slate-50/80 px-6 py-3 flex items-center gap-2 font-semibold text-slate-800 text-sm">
+          <i data-lucide="file-audio" class="w-4 h-4 text-emerald-700"></i>
+          <span data-i18n="uploadAudio">Carga de Audios</span>
+        </div>
+        <div class="p-6 flex-1 flex flex-col justify-center relative">
+          <div id="dropZone" class="border-dashed border-2 border-slate-300 hover:border-emerald-600 bg-slate-50 hover:bg-emerald-50/50 transition rounded-xl p-8 flex flex-col items-center text-center relative group h-full justify-center">
+            <input id="audioInput" type="file" multiple accept="audio/*,.wav,.mp3,.m4a,.ogg,.flac,.aac" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
+            <i data-lucide="upload" class="w-9 h-9 text-emerald-600 mb-3 group-hover:scale-110 transition-transform"></i>
+            <h3 class="text-lg font-bold text-slate-700" data-i18n="dragDrop">Arrastra o haz clic aquí</h3>
+            <div class="text-center mt-2 space-y-1">
+              <p class="text-slate-500 text-sm" data-i18n="formats">WAV, MP3 soportados</p>
+              <div class="bg-emerald-100 text-emerald-800 text-xs px-2.5 py-1.5 rounded-md inline-block font-medium mt-2">
+                <span data-i18n="ctrlClick">Mantén Ctrl + Clic para subir varios</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="lg:col-span-1 bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden flex flex-col h-full">
+        <div class="border-b border-slate-200 bg-slate-50/80 px-6 py-3 flex items-center gap-2 font-semibold text-slate-800 text-sm">
+          <i data-lucide="settings" class="w-4 h-4 text-emerald-700"></i>
+          <span data-i18n="thresholdTitle">Ajustes Heurísticos</span>
+        </div>
+        <div class="p-6 flex-1 flex flex-col justify-center space-y-6">
+          <label class="block">
+            <span class="flex justify-between text-sm text-slate-700 mb-3 font-semibold">
+              <span data-i18n="threshold">Umbral de Detección</span>
+              <span id="thresholdValue" class="font-mono bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded text-emerald-800">0.960</span>
+            </span>
+            <input id="thresholdInput" type="range" min="0.05" max="0.99" step="0.01" value="0.96" class="w-full accent-emerald-700">
+          </label>
+          <label class="block">
+            <span class="flex justify-between text-sm text-slate-700 mb-3 font-semibold">
+              <span data-i18n="minDuration">Duración mínima</span>
+              <span id="minDurationValue" class="font-mono bg-slate-50 border border-slate-200 px-2 py-0.5 rounded text-slate-700">0.18 s</span>
+            </span>
+            <input id="minDurationInput" type="range" min="0.05" max="2" step="0.01" value="0.18" class="w-full accent-slate-700">
+          </label>
+          <div class="bg-slate-50 border border-slate-200 p-4 rounded-xl text-xs flex gap-3 text-slate-600 shadow-sm">
+            <i data-lucide="info" class="w-6 h-6 shrink-0 text-emerald-600 mt-0.5"></i>
+            <p class="leading-relaxed" data-i18n="adjustSens">Ajusta la sensibilidad para calibrar la detección de cantos.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="examplesPanel" class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+      <div class="border-b border-slate-200 bg-slate-50/80 px-6 py-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+        <div>
+          <h2 class="font-semibold text-slate-800 flex items-center gap-2"><i data-lucide="folder-open" class="w-5 h-5 text-emerald-700"></i><span data-i18n="examplesTitle">Ejemplos incluidos</span></h2>
+          <p class="text-xs text-slate-500 mt-1" data-i18n="examplesDesc">Cinco audios cortos de prueba para revisar la carga, edición y exportación.</p>
+        </div>
+        <span class="text-xs text-slate-500">D:\TelmatoFinder\examples</span>
+      </div>
+      <div id="examplesList" class="grid grid-cols-1 md:grid-cols-5 gap-3 p-4"></div>
+    </section>
+
+    <section id="queuePanel" class="hidden bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+      <div class="border-b border-slate-200 bg-slate-50/80 px-6 py-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <h2 class="font-semibold text-slate-800 flex items-center gap-2">
+          <i data-lucide="bar-chart-2" class="w-5 h-5 text-emerald-700"></i>
+          <span data-i18n="queue">Cola de Procesamiento</span>
+          <span id="queueCount">(0)</span>
+        </h2>
+        <button id="analyseButton" class="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-2.5 rounded-lg text-white font-medium transition shadow-sm bg-emerald-700 hover:bg-emerald-800">
+          <i data-lucide="play" class="w-4 h-4"></i>
+          <span data-i18n="startAnalysis">Iniciar Análisis</span>
+        </button>
+      </div>
+      <div class="p-6">
+        <div id="progressWrap" class="hidden w-full bg-slate-100 rounded-full h-2.5 mb-6 overflow-hidden">
+          <div id="progressBar" class="bg-emerald-600 h-2.5 rounded-full transition-all duration-300" style="width: 0%"></div>
+        </div>
+        <div id="queueList" class="max-h-56 overflow-y-auto pr-2 space-y-2"></div>
+      </div>
+    </section>
+
+    <section id="resultsPanel" class="hidden bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+      <div class="border-b border-slate-200 bg-slate-50/80 px-6 py-4 flex flex-col lg:flex-row items-center justify-between gap-4">
+        <div>
+          <h2 class="font-bold text-slate-800 text-lg flex items-center gap-2">
+            <span data-i18n="results">Resultados de Inferencia</span>
+            <span id="editPulse" class="hidden flex h-2.5 w-2.5 relative ml-2"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span><span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span></span>
+          </h2>
+          <p id="eventsFoundText" class="text-sm text-slate-500 font-medium mt-0.5">0 eventos acústicos.</p>
+        </div>
+        <div class="flex flex-wrap gap-2 w-full lg:w-auto justify-end">
+          <button id="toggleEditButton" class="flex-1 lg:flex-none items-center justify-center flex gap-2 px-4 py-2 rounded-lg transition font-bold shadow-sm text-sm border bg-white text-slate-700 border-slate-300 hover:bg-slate-50">
+            <i data-lucide="edit-3" class="w-4 h-4"></i>
+            <span data-i18n="btnEditOn">Activar Edición Interactiva</span>
+          </button>
+          <button id="stopAudioButton" class="flex-1 lg:flex-none items-center justify-center flex gap-2 px-4 py-2 bg-white text-slate-700 rounded-lg hover:bg-slate-50 transition font-bold border border-slate-300 shadow-sm text-sm">
+            <i data-lucide="stop-circle" class="w-4 h-4"></i>
+            <span data-i18n="stopAudio">Detener Audio</span>
+          </button>
+          <button id="downloadCsvButton" class="flex-1 lg:flex-none items-center justify-center flex gap-2 px-4 py-2 bg-slate-800 text-white rounded-lg hover:bg-slate-900 transition font-bold shadow-sm text-sm">
+            <i data-lucide="download" class="w-4 h-4"></i>
+            <span data-i18n="downloadCsv">Descargar CSV</span>
+          </button>
+        </div>
+      </div>
+
+      <div id="editBanner" class="hidden bg-emerald-50 border-b border-emerald-200 px-6 py-3 flex flex-col md:flex-row items-center justify-between shrink-0 gap-3">
+        <div class="flex flex-wrap items-center gap-3 text-sm text-emerald-800 font-medium">
+          <i data-lucide="mouse-pointer-2" class="w-5 h-5 text-emerald-700 hidden md:block"></i>
+          <span data-i18n="editBannerInfo">Haz clic en un segmento para seleccionarlo. Etiqueta disponible:</span>
+          <div class="flex flex-wrap gap-2">
+            <strong class="edit-key">1 = <span data-i18n="labelTelma">Telmatobius</span></strong>
+            <strong class="edit-key">Del = <span data-i18n="delete">Borrar</span></strong>
+          </div>
+        </div>
+        <span id="selectedSegmentMsg" class="text-sm font-bold text-emerald-800 bg-white px-3 py-1 rounded-lg border border-emerald-200 shadow-sm" data-i18n="editBannerNone">Ninguna selección</span>
+      </div>
+
+      <div id="minuteEditor" class="p-4 grid grid-cols-1 gap-4 border-b border-slate-200 bg-slate-50"></div>
+
+      <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse">
+          <thead>
+            <tr class="bg-slate-50 text-slate-500 text-xs uppercase tracking-wider border-b border-slate-200">
+              <th class="px-6 py-4 font-bold" data-i18n="file">Archivo</th>
+              <th class="px-6 py-4 font-bold text-center" data-i18n="start">Inicio (s)</th>
+              <th class="px-6 py-4 font-bold text-center" data-i18n="end">Fin (s)</th>
+              <th class="px-6 py-4 font-bold text-center" data-i18n="duration">Duración</th>
+              <th class="px-6 py-4 font-bold text-center" data-i18n="label">Etiqueta</th>
+              <th class="px-6 py-4 font-bold text-center" data-i18n="action">Acción</th>
+            </tr>
+          </thead>
+          <tbody id="eventsTableBody" class="divide-y divide-slate-100 text-slate-700 bg-white"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

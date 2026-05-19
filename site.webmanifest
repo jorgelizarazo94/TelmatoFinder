@@ -1,0 +1,21 @@
+{
+  "short_name": "TelmatoFinder",
+  "name": "TelmatoFinder acoustic detector",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "type": "image/svg+xml",
+      "sizes": "any",
+      "purpose": "any"
+    },
+    {
+      "src": "icon.png",
+      "type": "image/png",
+      "sizes": "230x178",
+      "purpose": "any"
+    }
+  ],
+  "start_url": "/",
+  "background_color": "#f6f4ee",
+  "theme_color": "#0f3d35"
+}
