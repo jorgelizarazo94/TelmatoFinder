@@ -3,7 +3,7 @@
 
   const translations = {
     es: {
-      flag: "🇦🇷", langName: "Español",
+      flag: "img/flags/ar.svg", langName: "Español",
       subtitle: "Análisis Acústico Local",
       clearAll: "Limpiar Todo",
       removeAudio: "Quitar",
@@ -64,7 +64,7 @@
       segment: "minuto"
     },
     en: {
-      flag: "🇺🇸", langName: "English",
+      flag: "img/flags/ca.svg", langName: "English",
       subtitle: "Local Acoustic Analysis",
       clearAll: "Clear All",
       removeAudio: "Remove",
@@ -125,7 +125,7 @@
       segment: "minute"
     },
     pt: {
-      flag: "🇧🇷", langName: "Português",
+      flag: "img/flags/br.svg", langName: "Português",
       subtitle: "Análise Acústica Local",
       clearAll: "Limpar Tudo",
       removeAudio: "Remover",
@@ -186,7 +186,7 @@
       segment: "minuto"
     },
     fr: {
-      flag: "🇨🇦", langName: "Français",
+      flag: "img/flags/qc.svg", langName: "Français (Québec)",
       subtitle: "Analyse Acoustique Locale",
       clearAll: "Tout Effacer",
       removeAudio: "Retirer",
@@ -247,7 +247,7 @@
       segment: "minute"
     },
     gn: {
-      flag: "🇵🇾", langName: "Guaraní",
+      flag: "img/flags/py.svg", langName: "Guaraní",
       subtitle: "Ñe'ẽrypu Pysyrõha Local",
       clearAll: "Mopotĩmba",
       removeAudio: "Nohẽ",
@@ -331,6 +331,9 @@
     isEditMode: false,
     selectedId: null,
     editorDrag: null,
+    playback: null,
+    playbackFrame: null,
+    playbackLastDraw: 0,
     activeAudio: null,
     playTimer: null,
     melFilters: null,
@@ -381,6 +384,12 @@
     $("downloadCsvButton").addEventListener("click", exportCSV);
     $("thresholdInput").addEventListener("input", () => $("thresholdValue").textContent = Number($("thresholdInput").value).toFixed(3));
     $("minDurationInput").addEventListener("input", () => $("minDurationValue").textContent = `${Number($("minDurationInput").value).toFixed(2)} s`);
+    $("languageTrigger").addEventListener("click", (event) => {
+      event.stopPropagation();
+      $("languageMenu").classList.toggle("language-menu-open");
+    });
+    $("languageMenu").addEventListener("click", (event) => event.stopPropagation());
+    document.addEventListener("click", () => $("languageMenu").classList.remove("language-menu-open"));
 
     const dropZone = $("dropZone");
     ["dragenter", "dragover"].forEach((name) => dropZone.addEventListener(name, (event) => {
@@ -393,7 +402,10 @@
     }));
     dropZone.addEventListener("drop", (event) => addFiles(event.dataTransfer.files));
 
-    window.addEventListener("keydown", handleEditKeydown);
+    window.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") $("languageMenu").classList.remove("language-menu-open");
+      handleEditKeydown(event);
+    });
     window.addEventListener("resize", debounce(renderMinuteEditor, 150));
   }
 
@@ -406,13 +418,13 @@
       const modalButton = document.createElement("button");
       modalButton.className = "text-lg transition-transform hover:scale-110 p-1.5 rounded-lg border";
       modalButton.title = value.langName;
-      modalButton.textContent = value.flag;
+      modalButton.innerHTML = flagMarkup(value.flag, value.langName, "language-flag-lg");
       modalButton.addEventListener("click", () => setLang(key));
       modal.appendChild(modalButton);
 
       const menuButton = document.createElement("button");
       menuButton.className = "w-full text-left px-4 py-2.5 text-sm hover:bg-emerald-50 flex items-center gap-3 text-slate-600 border-l-4 border-transparent";
-      menuButton.innerHTML = `<span class="text-lg">${value.flag}</span> ${escapeHtml(value.langName)}`;
+      menuButton.innerHTML = `${flagMarkup(value.flag, value.langName, "language-flag")} ${escapeHtml(value.langName)}`;
       menuButton.addEventListener("click", () => setLang(key));
       menu.appendChild(menuButton);
     });
@@ -421,11 +433,16 @@
   function setLang(lang) {
     state.lang = lang;
     localStorage.setItem("telmatofinder_lang", lang);
+    $("languageMenu").classList.remove("language-menu-open");
     translatePage();
     renderExamples();
     renderQueue();
     renderResults();
     renderMinuteEditor();
+  }
+
+  function flagMarkup(src, alt, className = "language-flag") {
+    return `<img class="${className}" src="${escapeHtml(src)}" alt="${escapeHtml(alt)} flag">`;
   }
 
   function translatePage() {
@@ -434,11 +451,22 @@
       const key = node.dataset.i18n;
       if (dict[key]) node.textContent = dict[key];
     });
-    $("languageLabel").textContent = `${dict.flag} ${dict.langName}`;
+    $("languageLabel").innerHTML = `${flagMarkup(dict.flag, dict.langName, "language-flag")} <span>${escapeHtml(dict.langName)}</span>`;
     $("thresholdValue").textContent = Number($("thresholdInput").value).toFixed(3);
     $("minDurationValue").textContent = `${Number($("minDurationInput").value).toFixed(2)} s`;
+    updateTranslationNotice(dict);
     updateEditUi();
     renderIcons();
+  }
+
+  function updateTranslationNotice(dict) {
+    const notice = $("translationNotice");
+    const text = $("translationNoticeText");
+    const message = ["pt", "gn"].includes(state.lang)
+      ? `You selected ${dict.langName}. This translation was prepared with assistance from an LLM; please excuse any language errors.`
+      : "";
+    text.textContent = message;
+    notice.classList.toggle("hidden", !message);
   }
 
   function updateWelcomeModal() {
@@ -1008,6 +1036,7 @@
     drawAxes(ctx, spec, wave, group);
     drawDetections(ctx, group, spec, wave);
     drawCreationPreview(ctx, group, spec, wave);
+    drawPlaybackLine(ctx, group, spec, wave);
   }
 
   function drawSpectrogram(ctx, group, box) {
@@ -1194,7 +1223,41 @@
     ctx.shadowBlur = 0;
   }
 
+  function drawPlaybackLine(ctx, group, spec, wave) {
+    if (!state.playback || !state.activeAudio || !playbackMatchesGroup(group)) return;
+    const sec = state.activeAudio.currentTime;
+    if (sec < group.segmentStart || sec > group.segmentEnd) return;
+    const x = timeToX(sec, group.segmentStart, spec);
+    ctx.save();
+    ctx.strokeStyle = "#ffffff";
+    ctx.lineWidth = 4;
+    ctx.shadowColor = "rgba(0,0,0,0.9)";
+    ctx.shadowBlur = 5;
+    ctx.beginPath();
+    ctx.moveTo(x, wave.y);
+    ctx.lineTo(x, spec.y + spec.h);
+    ctx.stroke();
+    ctx.shadowBlur = 0;
+    ctx.strokeStyle = "#ef4444";
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(x, wave.y);
+    ctx.lineTo(x, spec.y + spec.h);
+    ctx.stroke();
+    ctx.fillStyle = "#ef4444";
+    ctx.beginPath();
+    ctx.arc(x, wave.y + 8, 5, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+  }
+
   function handleCanvasPointerDown(event, canvas, group) {
+    if (state.playback && playbackMatchesGroup(group) && (!state.isEditMode || isNearPlaybackLine(event, canvas, group))) {
+      canvas.setPointerCapture(event.pointerId);
+      state.playback.dragging = true;
+      seekPlaybackToCanvasEvent(event, canvas, group);
+      return;
+    }
     if (!state.isEditMode) return;
     canvas.setPointerCapture(event.pointerId);
     const sec = canvasEventToSec(event, canvas, group);
@@ -1209,6 +1272,10 @@
   }
 
   function handleCanvasPointerMove(event, canvas, group) {
+    if (state.playback?.dragging && playbackMatchesGroup(group)) {
+      seekPlaybackToCanvasEvent(event, canvas, group);
+      return;
+    }
     if (!state.editorDrag || state.editorDrag.groupKey !== groupKey(group)) return;
     const sec = canvasEventToSec(event, canvas, group);
     if (Math.abs(sec - state.editorDrag.startSec) > 0.04) state.editorDrag.moved = true;
@@ -1217,6 +1284,11 @@
   }
 
   function handleCanvasPointerUp(event, canvas, group) {
+    if (state.playback?.dragging && playbackMatchesGroup(group)) {
+      seekPlaybackToCanvasEvent(event, canvas, group);
+      state.playback.dragging = false;
+      return;
+    }
     if (!state.isEditMode || !state.editorDrag || state.editorDrag.groupKey !== groupKey(group)) return;
     const drag = state.editorDrag;
     state.editorDrag = null;
@@ -1236,6 +1308,25 @@
     if (!state.editorDrag || state.editorDrag.groupKey !== groupKey(group)) return;
     state.editorDrag = null;
     drawEditorCanvas(canvas, group);
+  }
+
+  function seekPlaybackToCanvasEvent(event, canvas, group) {
+    if (!state.activeAudio || !state.playback) return;
+    const sec = canvasEventToSec(event, canvas, group);
+    const minSec = Number.isFinite(state.playback.startSec) ? state.playback.startSec : group.segmentStart;
+    const maxSec = Number.isFinite(state.playback.endSec) ? state.playback.endSec : group.segmentEnd;
+    state.activeAudio.currentTime = clamp(sec, minSec, maxSec);
+    redrawVisibleEditorCanvases();
+  }
+
+  function isNearPlaybackLine(event, canvas, group) {
+    if (!state.activeAudio || !state.playback) return false;
+    const rect = canvas.getBoundingClientRect();
+    const scaleX = canvas.width / rect.width;
+    const pointerX = (event.clientX - rect.left) * scaleX;
+    const box = { x: 48, w: canvas.width - 72 };
+    const lineX = timeToX(state.activeAudio.currentTime, group.segmentStart, box);
+    return Math.abs(pointerX - lineX) <= 14;
   }
 
   function canvasEventToSec(event, canvas, group) {
@@ -1343,17 +1434,23 @@
   function playEvent(id) {
     const det = state.detections.find((item) => item.id === id);
     if (!det) return;
-    playRange(det.fileUrl, det.startSec, det.endSec);
+    playRange(det.fileUrl, det.startSec, det.endSec, {
+      audioId: det.audioId,
+      segmentIndex: det.segmentIndex
+    });
   }
 
   function playAudio(audioId) {
     const audio = state.files.find((item) => item.id === audioId);
     if (!audio) return;
-    playRange(audio.url, 0, null);
+    playRange(audio.url, 0, null, { audioId: audio.id, segmentIndex: null });
   }
 
   function playMinute(group) {
-    playRange(group.audio.url, group.segmentStart, group.segmentEnd);
+    playRange(group.audio.url, group.segmentStart, group.segmentEnd, {
+      audioId: group.audio.id,
+      segmentIndex: group.segmentIndex
+    });
   }
 
   function playSelectedInGroup(group) {
@@ -1361,12 +1458,19 @@
     if (det) playEvent(det.id);
   }
 
-  function playRange(url, startSec, endSec) {
+  function playRange(url, startSec, endSec, metadata = {}) {
     stopPlayback();
     const audio = new Audio(url);
     audio.preload = "auto";
     audio.controls = false;
     state.activeAudio = audio;
+    state.playback = {
+      audioId: metadata.audioId || null,
+      segmentIndex: Number.isInteger(metadata.segmentIndex) ? metadata.segmentIndex : null,
+      startSec: Number.isFinite(startSec) ? startSec : 0,
+      endSec: Number.isFinite(endSec) ? endSec : null,
+      dragging: false
+    };
 
     const startPlayback = () => {
       const safeStart = Math.max(0, startSec || 0);
@@ -1383,6 +1487,7 @@
           console.warn("Audio playback was blocked or failed:", error);
         });
       }
+      startPlaybackAnimation();
     };
 
     if (Number.isFinite(endSec)) {
@@ -1399,15 +1504,59 @@
     audio.load();
   }
 
+  function startPlaybackAnimation() {
+    stopPlaybackAnimation();
+    const tick = (timestamp) => {
+      if (!state.activeAudio || !state.playback) {
+        state.playbackFrame = null;
+        return;
+      }
+      if (timestamp - state.playbackLastDraw > 80 || state.playback.dragging) {
+        state.playbackLastDraw = timestamp;
+        redrawVisibleEditorCanvases();
+      }
+      state.playbackFrame = requestAnimationFrame(tick);
+    };
+    state.playbackFrame = requestAnimationFrame(tick);
+  }
+
+  function stopPlaybackAnimation() {
+    if (state.playbackFrame) {
+      cancelAnimationFrame(state.playbackFrame);
+      state.playbackFrame = null;
+    }
+  }
+
+  function redrawVisibleEditorCanvases() {
+    const groups = buildMinuteGroups();
+    document.querySelectorAll("canvas[data-group-index]").forEach((canvas) => {
+      const group = groups[Number(canvas.dataset.groupIndex)];
+      if (group) drawEditorCanvas(canvas, group);
+    });
+  }
+
+  function playbackMatchesGroup(group) {
+    if (!state.playback || !group) return false;
+    if (state.playback.audioId !== group.audio.id) return false;
+    if (Number.isInteger(state.playback.segmentIndex)) {
+      return state.playback.segmentIndex === group.segmentIndex;
+    }
+    const current = state.activeAudio ? state.activeAudio.currentTime : 0;
+    return current >= group.segmentStart && current <= group.segmentEnd;
+  }
+
   function stopPlayback() {
     if (state.activeAudio) {
       state.activeAudio.pause();
       state.activeAudio = null;
     }
+    state.playback = null;
+    stopPlaybackAnimation();
     if (state.playTimer) {
       clearTimeout(state.playTimer);
       state.playTimer = null;
     }
+    redrawVisibleEditorCanvases();
   }
 
   function exportCSV() {
