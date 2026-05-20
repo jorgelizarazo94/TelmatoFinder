@@ -263,6 +263,40 @@ select {
   background: rgba(236, 253, 245, 0.85) !important;
 }
 
+.upload-pickers {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.upload-picker-button {
+  background: #047857;
+  border: 1px solid #047857;
+  border-radius: 0.55rem;
+  color: #ffffff;
+  cursor: pointer;
+  font-size: 0.86rem;
+  font-weight: 800;
+  min-height: 40px;
+  padding: 0.55rem 0.9rem;
+}
+
+.upload-picker-button:hover {
+  background: #065f46;
+}
+
+.upload-picker-button.secondary {
+  background: #ffffff;
+  border-color: #a7f3d0;
+  color: #047857;
+}
+
+.upload-picker-button.secondary:hover {
+  background: #ecfdf5;
+}
+
 .status-dot-ready {
   background: #10b981;
   box-shadow: 0 0 0 5px rgba(16, 185, 129, 0.16);

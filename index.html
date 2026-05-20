@@ -142,11 +142,16 @@
         </div>
         <div class="p-6 flex-1 flex flex-col justify-center relative">
           <div id="dropZone" class="border-dashed border-2 border-slate-300 hover:border-emerald-600 bg-slate-50 hover:bg-emerald-50/50 transition rounded-xl p-8 flex flex-col items-center text-center relative group h-full justify-center">
-            <input id="audioInput" type="file" multiple accept="audio/*,.wav,.mp3,.m4a,.ogg,.flac,.aac" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
+            <input id="audioInput" type="file" multiple accept="audio/*,.wav,.mp3,.m4a,.ogg,.flac,.aac" class="hidden">
+            <input id="folderInput" type="file" multiple webkitdirectory directory accept="audio/*,.wav,.mp3,.m4a,.ogg,.flac,.aac" class="hidden">
             <i data-lucide="upload" class="w-9 h-9 text-emerald-600 mb-3 group-hover:scale-110 transition-transform"></i>
             <h3 class="text-lg font-bold text-slate-700" data-i18n="dragDrop">Arrastra o haz clic aquí</h3>
             <div class="text-center mt-2 space-y-1">
               <p class="text-slate-500 text-sm" data-i18n="formats">WAV, MP3 soportados</p>
+              <div class="upload-pickers">
+                <button type="button" id="chooseFilesButton" class="upload-picker-button" data-i18n="chooseFiles">Seleccionar archivos</button>
+                <button type="button" id="chooseFolderButton" class="upload-picker-button secondary" data-i18n="chooseFolder">Seleccionar carpeta</button>
+              </div>
               <div class="bg-emerald-100 text-emerald-800 text-xs px-2.5 py-1.5 rounded-md inline-block font-medium mt-2">
                 <span data-i18n="ctrlClick">Mantén Ctrl + Clic para subir varios</span>
               </div>

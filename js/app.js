@@ -14,6 +14,8 @@
       uploadAudio: "Carga de Audios",
       dragDrop: "Arrastra o haz clic aquí",
       formats: "WAV, MP3, M4A, OGG, FLAC o AAC",
+      chooseFiles: "Seleccionar archivos",
+      chooseFolder: "Seleccionar carpeta",
       ctrlClick: "Mantén Ctrl + Clic para subir varios",
       thresholdTitle: "Ajustes de Inferencia",
       threshold: "Umbral de Detección",
@@ -73,6 +75,8 @@
       uploadAudio: "Upload Audio",
       dragDrop: "Drag & drop or click here",
       formats: "WAV, MP3, M4A, OGG, FLAC or AAC",
+      chooseFiles: "Choose files",
+      chooseFolder: "Choose folder",
       ctrlClick: "Hold Ctrl + Click to select multiple",
       thresholdTitle: "Inference Settings",
       threshold: "Detection Threshold",
@@ -132,6 +136,8 @@
       uploadAudio: "Carregar Áudio",
       dragDrop: "Arraste ou clique aqui",
       formats: "WAV, MP3, M4A, OGG, FLAC ou AAC",
+      chooseFiles: "Selecionar arquivos",
+      chooseFolder: "Selecionar pasta",
       ctrlClick: "Segure Ctrl + Clique para vários",
       thresholdTitle: "Configurações de Inferência",
       threshold: "Limiar de Detecção",
@@ -191,6 +197,8 @@
       uploadAudio: "Charger Audio",
       dragDrop: "Glissez ou cliquez ici",
       formats: "WAV, MP3, M4A, OGG, FLAC ou AAC",
+      chooseFiles: "Choisir fichiers",
+      chooseFolder: "Choisir dossier",
       ctrlClick: "Maintenez Ctrl + Clic pour plusieurs",
       thresholdTitle: "Paramètres d'Inférence",
       threshold: "Seuil de Détection",
@@ -250,6 +258,8 @@
       uploadAudio: "Ñe'ẽrypu Ñemoinge",
       dragDrop: "Eity térã eikutu ko'ápe",
       formats: "WAV, MP3, M4A, OGG, FLAC térã AAC",
+      chooseFiles: "Eiporavo archivo",
+      chooseFolder: "Eiporavo carpeta",
       ctrlClick: "Ejopy Ctrl + Clic emoinge hetave hag̃ua",
       thresholdTitle: "Ñemboheko Inferencia",
       threshold: "Detección Renda",
@@ -304,7 +314,7 @@
   const N_FFT = 1024;
   const HOP_LENGTH = 512;
   const N_MELS = 64;
-  const MAX_DISPLAY_HZ = 500;
+  const MAX_DISPLAY_HZ = 2000;
 
   const state = {
     lang: "es",
@@ -359,6 +369,9 @@
     $("closePrivacyButton").addEventListener("click", () => $("privacyPopup").classList.add("hidden"));
     $("privacyOkButton").addEventListener("click", () => $("privacyPopup").classList.add("hidden"));
     $("audioInput").addEventListener("change", (event) => addFiles(event.target.files));
+    $("folderInput").addEventListener("change", (event) => addFiles(event.target.files));
+    $("chooseFilesButton").addEventListener("click", () => $("audioInput").click());
+    $("chooseFolderButton").addEventListener("click", () => $("folderInput").click());
     $("modelInput").addEventListener("change", handleModelUpload);
     $("clearAllButton").addEventListener("click", clearAll);
     $("analyseButton").addEventListener("click", analyseFiles);
@@ -549,7 +562,7 @@
       state.files.push({
         id,
         file,
-        name: file.name,
+        name: file.webkitRelativePath || file.name,
         size: file.size,
         status: "Pendiente",
         url: URL.createObjectURL(file)
@@ -1077,7 +1090,7 @@
     ctx.lineWidth = 1.4;
     const mid = box.y + box.h / 2;
     const robustPeak = waveformRobustPeak(samples) || 1;
-    const scale = (box.h * 0.46) / robustPeak;
+    const scale = (box.h * 0.28) / robustPeak;
     ctx.beginPath();
     for (let x = 0; x < box.w; x += 1) {
       const a = Math.floor(x * samples.length / box.w);
@@ -1119,7 +1132,7 @@
     ctx.rotate(-Math.PI / 2);
     ctx.fillText("Amplitude", -31, 0);
     ctx.restore();
-    ctx.fillText("500", 20, spec.y + 5);
+    ctx.fillText(String(MAX_DISPLAY_HZ), 16, spec.y + 5);
     ctx.fillText("0", 33, spec.y + spec.h);
     ctx.fillText("Time (s)", spec.x + spec.w / 2 - 24, spec.y + spec.h + 38);
     for (let i = 0; i <= 12; i += 1) {
@@ -1141,9 +1154,9 @@
       const startX = timeToX(det.startSec, group.segmentStart, spec);
       const endX = timeToX(det.endSec, group.segmentStart, spec);
       const selected = det.id === state.selectedId;
-      ctx.fillStyle = selected ? "rgba(16,185,129,0.35)" : labelFill(det.label);
-      ctx.strokeStyle = selected ? "#047857" : labelStroke(det.label);
-      ctx.lineWidth = selected ? 3 : 2;
+      ctx.fillStyle = selected ? "rgba(251, 191, 36, 0.34)" : labelFill(det.label);
+      ctx.strokeStyle = selected ? "#fef08a" : labelStroke(det.label);
+      ctx.lineWidth = selected ? 3.5 : 2.5;
       [spec, wave].forEach((box) => {
         ctx.fillRect(startX, box.y, Math.max(2, endX - startX), box.h);
       ctx.strokeRect(startX, box.y, Math.max(2, endX - startX), box.h);
@@ -1497,7 +1510,7 @@
     const values = [];
     for (let i = 0; i < samples.length; i += step) values.push(Math.abs(samples[i] || 0));
     values.sort((a, b) => a - b);
-    return Math.max(percentile(values, 0.985), 0.002);
+    return Math.max(percentile(values, 0.999), 0.006);
   }
 
   function smoothSpectrogram(matrix, timeRadius, freqRadius) {
@@ -1582,11 +1595,11 @@
   }
 
   function labelFill(label) {
-    return "rgba(16,185,129,0.24)";
+    return "rgba(251, 191, 36, 0.24)";
   }
 
   function labelStroke(label) {
-    return "#059669";
+    return "#facc15";
   }
 
   function labelClass(label) {
