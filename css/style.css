@@ -132,6 +132,15 @@ select {
   padding: 0.28rem 0.72rem;
 }
 
+.partner-logo-inecoa {
+  height: 3.15rem;
+  max-width: none;
+  object-fit: cover;
+  object-position: center;
+  padding: 0;
+  width: 6.8rem;
+}
+
 .partner-logo-local {
   height: 2.82rem;
   max-width: 13.2rem;
@@ -504,6 +513,12 @@ select {
   .partner-logo-wildlabs {
     height: 2.55rem;
     max-width: 12.25rem;
+  }
+
+  .partner-logo-inecoa {
+    height: 2.55rem;
+    max-width: none;
+    width: 5.6rem;
   }
 
   .partner-logo-local {
