@@ -4,3 +4,5 @@ flag-ca.png,English,Wikimedia Commons,https://commons.wikimedia.org/wiki/File:Fl
 flag-br.png,Portuguese,Wikimedia Commons,https://commons.wikimedia.org/wiki/File:Flag_of_Brazil.svg,Local thumbnail for deployment.
 flag-qc.png,French (Quebec),Wikimedia Commons,https://commons.wikimedia.org/wiki/File:Flag_of_Quebec.svg,Local thumbnail for deployment.
 flag-py.png,Guarani,FlagCDN,https://flagcdn.com/,Local thumbnail for deployment; used after Wikimedia rate-limit during download.
+symbol-aymara.svg,Aymara (Jujuy / Andes),Local SVG,created locally,Andean textile/wiphala-inspired symbol for language selector.
+symbol-quechua.svg,Quechua / Runasimi (Jujuy / Andes),Local SVG,created locally,Chakana-inspired symbol for language selector.
