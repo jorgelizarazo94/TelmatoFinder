@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 48" role="img" aria-label="Quechua Andean chakana-inspired symbol">
+  <rect width="72" height="48" rx="5" fill="#0f172a"/>
+  <path fill="#f8fafc" d="M30 6h12v8h8v8h8v12h-8v8h-8v-8H30v8h-8v-8h-8V22h8v-8h8Z"/>
+  <path fill="#0f172a" d="M32 18h8v5h5v8h-5v5h-8v-5h-5v-8h5Z"/>
+  <path fill="#f59e0b" d="M36 10 40 18H32Z"/>
+  <path fill="#22c55e" d="M36 38 32 30h8Z"/>
+  <path fill="#ef4444" d="M17 24 25 20v8Z"/>
+  <path fill="#38bdf8" d="M55 24 47 28v-8Z"/>
+</svg>

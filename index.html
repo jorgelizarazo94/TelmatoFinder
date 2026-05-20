@@ -17,6 +17,8 @@
   <link rel="preload" as="image" href="img/flag-br.png">
   <link rel="preload" as="image" href="img/flag-qc.png">
   <link rel="preload" as="image" href="img/flag-py.png">
+  <link rel="preload" as="image" href="img/symbol-aymara.svg">
+  <link rel="preload" as="image" href="img/symbol-quechua.svg">
   <link rel="stylesheet" href="css/style.css">
   <script src="https://cdn.tailwindcss.com"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/onnxruntime-web/dist/ort.min.js"></script>
@@ -24,7 +26,7 @@
   <script defer src="js/app.js"></script>
 </head>
 <body class="min-h-screen bg-slate-50 text-slate-900 font-sans pb-12 relative overflow-x-hidden">
-  <div id="welcomeModal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-md z-[200] flex items-center justify-center p-4">
+  <div id="welcomeModal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-md z-[700] flex items-center justify-center p-4">
     <div class="bg-white rounded-2xl shadow-2xl max-w-lg w-full overflow-hidden p-8 text-center flex flex-col max-h-[90vh]">
       <div class="overflow-y-auto no-scrollbar pb-4">
         <div class="modal-logo-row">
@@ -93,7 +95,7 @@
     </div>
   </header>
 
-  <nav class="w-full bg-white border-b border-slate-200 shadow-sm relative z-20">
+  <nav class="w-full bg-white border-b border-slate-200 shadow-sm relative z-[350]">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-wrap items-center justify-end gap-4">
       <button id="loadExamplesButton" class="flex items-center gap-2 px-4 py-2 text-sm text-emerald-700 bg-emerald-50 rounded-lg border border-emerald-200 hover:bg-emerald-100 transition font-bold shadow-sm">
         <i data-lucide="folder-open" class="w-4 h-4"></i>
@@ -104,7 +106,7 @@
           <i data-lucide="globe" class="w-4 h-4 text-emerald-700"></i>
           <span id="languageLabel">🇦🇷 Español</span>
         </button>
-        <div id="languageMenu" class="absolute right-0 mt-1 w-44 bg-white rounded-xl shadow-xl border border-slate-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50 overflow-hidden"></div>
+        <div id="languageMenu" class="absolute right-0 mt-1 w-64 bg-white rounded-xl shadow-xl border border-slate-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50 overflow-hidden"></div>
       </div>
       <button id="clearAllButton" class="flex items-center gap-2 px-4 py-2 text-sm text-rose-600 bg-white rounded-lg border border-rose-200 hover:bg-rose-50 transition font-medium shadow-sm">
         <i data-lucide="trash-2" class="w-4 h-4 text-rose-500"></i>
@@ -118,7 +120,7 @@
     <span id="translationNoticeText"></span>
   </div>
 
-  <div id="privacyPopup" class="hidden fixed inset-0 bg-slate-900/40 backdrop-blur-sm flex items-center justify-center z-[100] px-4">
+  <div id="privacyPopup" class="hidden fixed inset-0 bg-slate-900/40 backdrop-blur-sm flex items-center justify-center z-[650] px-4">
     <div class="bg-white rounded-2xl shadow-xl border border-slate-200 max-w-md w-full p-6">
       <div class="flex justify-between items-start mb-4">
         <div class="bg-emerald-100 text-emerald-700 p-2 rounded-xl"><i data-lucide="shield-check" class="w-7 h-7"></i></div>
