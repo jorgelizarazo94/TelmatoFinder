@@ -31,7 +31,9 @@
       <div class="overflow-y-auto no-scrollbar pb-4">
         <div class="modal-logo-row">
           <img src="img/logo_telmatofinder_horizontal.svg" alt="TelmatoFinder" class="modal-project-logo">
-          <img src="img/wildlabs-logo-wide-black.svg" alt="WILDLABS" class="modal-wildlabs-logo">
+          <a href="https://wildlabs.net/" target="_blank" rel="noopener noreferrer" class="modal-logo-link" aria-label="Open WILDLABS website">
+            <img src="img/wildlabs-logo-wide-black.svg" alt="WILDLABS" class="modal-wildlabs-logo">
+          </a>
         </div>
         <div class="w-20 h-20 bg-emerald-50 text-emerald-700 rounded-full flex items-center justify-center mx-auto mb-6 shadow-inner border border-emerald-100">
           <i data-lucide="shield-check" class="w-10 h-10"></i>
@@ -58,23 +60,37 @@
     </div>
   </div>
 
+  <section class="partner-strip" aria-label="Project institutions">
+    <div class="partner-strip-inner">
+      <div class="partner-group partner-group-creators">
+        <div class="partner-group-title" data-i18n="creatorsGroup">Creadores</div>
+        <div class="partner-logo-row">
+          <div class="partner-subgroup partner-subgroup-lead">
+            <a href="https://wildlabs.net/" target="_blank" rel="noopener noreferrer" class="partner-link"><img src="img/wildlabs-logo-wide-black.svg" alt="WILDLABS" class="partner-logo partner-logo-wildlabs"></a>
+            <a href="https://inecoa-unju.conicet.gov.ar/" target="_blank" rel="noopener noreferrer" class="partner-link"><img src="img/INECOA.svg" alt="INECOA" class="partner-logo partner-logo-wildlabs"></a>
+          </div>
+          <div class="partner-subgroup partner-subgroup-institutions">
+            <a href="https://www.conicet.gov.ar/?lan=en" target="_blank" rel="noopener noreferrer" class="partner-link"><img src="img/CONICET.svg" alt="CONICET" class="partner-logo partner-logo-local"></a>
+            <a href="https://www.unju.edu.ar/" target="_blank" rel="noopener noreferrer" class="partner-link"><img src="img/logo_unju_800.svg" alt="Universidad Nacional de Jujuy" class="partner-logo partner-logo-local"></a>
+            <a href="https://www.arm.com/" target="_blank" rel="noopener noreferrer" class="partner-link"><img src="img/ARM.svg" alt="Arm" class="partner-logo"></a>
+          </div>
+        </div>
+      </div>
+      <div class="partner-group partner-group-collaborators">
+        <div class="partner-group-title" data-i18n="collaboratorsGroup">Colaboradores</div>
+        <div class="partner-logo-row">
+          <a href="https://www.icesi.edu.co/" target="_blank" rel="noopener noreferrer" class="partner-link"><img src="img/Logo_universidad_icesi.svg" alt="Universidad Icesi" class="partner-logo"></a>
+          <a href="https://www.uwo.ca/" target="_blank" rel="noopener noreferrer" class="partner-link"><img src="img/western_university_canada_logo.svg" alt="Western University" class="partner-logo"></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <header class="relative w-full overflow-hidden bg-slate-900 shadow-md border-b border-emerald-900/50">
     <img src="img/pozuelos.png" alt="Cuenca de la Laguna de los Pozuelos, Jujuy" class="hero-bg absolute inset-0 w-full h-full object-cover opacity-60">
     <div class="absolute inset-0 bg-gradient-to-b from-slate-900/90 via-slate-900/60 to-slate-900/80"></div>
 
-    <div class="relative z-10 w-full max-w-7xl mx-auto flex flex-col min-h-[14rem] md:min-h-[18rem]">
-      <div class="p-4 sm:p-6 lg:px-8 flex justify-start">
-        <div class="flex flex-wrap items-center gap-3 bg-white/10 backdrop-blur-md p-1.5 rounded-lg border border-white/10 shadow-sm">
-          <a href="https://wildlabs.net/" target="_blank" rel="noopener noreferrer" class="hover:scale-110 transition-transform"><img src="img/wildlabs-logo-wide-black.svg" alt="WILDLABS" class="partner-logo partner-logo-wildlabs"></a>
-          <a href="https://www.arm.com/" target="_blank" rel="noopener noreferrer" class="hover:scale-110 transition-transform"><img src="img/ARM.svg" alt="Arm" class="partner-logo"></a>
-          <a href="https://www.conicet.gov.ar/?lan=en" target="_blank" rel="noopener noreferrer" class="hover:scale-110 transition-transform"><img src="img/CONICET.svg" alt="EECO" class="partner-logo"></a>
-          <a href="https://www.unju.edu.ar/" target="_blank" rel="noopener noreferrer" class="hover:scale-110 transition-transform"><img src="img/logo_unju_800.svg" alt="Instituto de Investigaciones de Biodiversidad de Argentina" class="partner-logo"></a>
-          <div class="h-5 w-px bg-white/30 hidden sm:block mx-1"></div>
-          <a href="https://www.icesi.edu.co/" target="_blank" rel="noopener noreferrer" class="hover:scale-110 transition-transform"><img src="img/Logo_universidad_icesi.svg" alt="Universidad Icesi" class="partner-logo"></a>
-          <a href="https://www.uwo.ca/" target="_blank" rel="noopener noreferrer" class="hover:scale-110 transition-transform"><img src="img/western_university_canada_logo.svg" alt="Western University" class="partner-logo"></a>
-        </div>
-      </div>
-
+    <div class="relative z-10 w-full max-w-7xl mx-auto flex flex-col min-h-[12rem] md:min-h-[15rem]">
       <div class="flex-1 flex flex-col justify-end px-4 sm:px-6 lg:px-8 pb-8 pt-4">
         <div class="flex items-center gap-3 flex-wrap">
           <img src="img/logo_telmatofinder_horizontal.svg" alt="TelmatoFinder" class="project-logo-hero">
@@ -194,7 +210,13 @@
           </label>
           <div class="bg-slate-50 border border-slate-200 p-4 rounded-xl text-xs flex gap-3 text-slate-600 shadow-sm">
             <i data-lucide="info" class="w-6 h-6 shrink-0 text-emerald-600 mt-0.5"></i>
-            <p class="leading-relaxed" data-i18n="adjustSens">Ajusta la sensibilidad para calibrar la detección de cantos.</p>
+            <div class="space-y-3">
+              <p class="leading-relaxed" data-i18n="adjustSens">Ajusta la sensibilidad para calibrar la detección de cantos.</p>
+              <a class="settings-guide-link" href="docs/inference_settings_guide.pdf" target="_blank" rel="noopener noreferrer">
+                <i data-lucide="book-open" class="w-4 h-4"></i>
+                <span data-i18n="settingsGuide">Guía de ajustes PDF</span>
+              </a>
+            </div>
           </div>
         </div>
       </div>

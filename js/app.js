@@ -21,6 +21,7 @@
       threshold: "Umbral de Detección",
       minDuration: "Duración mínima",
       adjustSens: "Ajusta el umbral del modelo para calibrar la detección de cantos de Telmatobius rubigo. Un valor alto reduce falsos positivos, pero puede perder cantos débiles.",
+      settingsGuide: "Guía de ajustes PDF",
       queue: "Cola de Procesamiento",
       analyzing: "Analizando en local...",
       startAnalysis: "Iniciar Análisis",
@@ -61,6 +62,8 @@
       modelAuto: "Modelo automático",
       modelReady: "modelo listo",
       modelFallback: "sin ONNX, modo heurístico",
+      creatorsGroup: "Creadores",
+      collaboratorsGroup: "Colaboradores",
       segment: "minuto"
     },
     en: {
@@ -82,6 +85,7 @@
       threshold: "Detection Threshold",
       minDuration: "Minimum duration",
       adjustSens: "Adjust the model threshold to calibrate Telmatobius rubigo call detection. A high value reduces false positives, but can miss weak calls.",
+      settingsGuide: "PDF settings guide",
       queue: "Processing Queue",
       analyzing: "Analysing locally...",
       startAnalysis: "Start Analysis",
@@ -122,6 +126,8 @@
       modelAuto: "Automatic model",
       modelReady: "model ready",
       modelFallback: "no ONNX, heuristic mode",
+      creatorsGroup: "Creators",
+      collaboratorsGroup: "Collaborators",
       segment: "minute"
     },
     pt: {
@@ -143,6 +149,7 @@
       threshold: "Limiar de Detecção",
       minDuration: "Duração mínima",
       adjustSens: "Ajuste o limiar do modelo para calibrar a detecção de Telmatobius rubigo.",
+      settingsGuide: "Guia PDF de ajustes",
       queue: "Fila de Processamento",
       analyzing: "Analisando localmente...",
       startAnalysis: "Iniciar Análise",
@@ -183,6 +190,8 @@
       modelAuto: "Modelo automático",
       modelReady: "modelo pronto",
       modelFallback: "sem ONNX, modo heurístico",
+      creatorsGroup: "Criadores",
+      collaboratorsGroup: "Colaboradores",
       segment: "minuto"
     },
     fr: {
@@ -204,6 +213,7 @@
       threshold: "Seuil de Détection",
       minDuration: "Durée minimale",
       adjustSens: "Ajustez le seuil du modèle pour calibrer la détection de Telmatobius rubigo.",
+      settingsGuide: "Guide PDF des paramètres",
       queue: "File d'attente",
       analyzing: "Analyse locale...",
       startAnalysis: "Démarrer",
@@ -244,6 +254,8 @@
       modelAuto: "Modèle automatique",
       modelReady: "modèle prêt",
       modelFallback: "sans ONNX, mode heuristique",
+      creatorsGroup: "Créateurs",
+      collaboratorsGroup: "Collaborateurs",
       segment: "minute"
     },
     gn: {
@@ -265,6 +277,7 @@
       threshold: "Detección Renda",
       minDuration: "Pukukue michĩvéva",
       adjustSens: "Emyatyrõ umbral eikuaa porãve hag̃ua Telmatobius rubigo purahéi.",
+      settingsGuide: "PDF ñemboheko guía",
       queue: "Oñemba'apohína",
       analyzing: "Ojesareko hína local-pe...",
       startAnalysis: "Ñepyrũ Hesaho",
@@ -305,6 +318,8 @@
       modelAuto: "Modelo automático",
       modelReady: "modelo oĩma",
       modelFallback: "ONNX ndaipóri, heurístico",
+      creatorsGroup: "Apoharakuéra",
+      collaboratorsGroup: "Pytyvõharakuéra",
       segment: "minuto"
     },
     ay: {
@@ -326,6 +341,7 @@
       threshold: "Detección umbral",
       minDuration: "Jisk'a pacha",
       adjustSens: "Modelo umbral chiqañchaña, Telmatobius rubigo jawari uñt'añataki.",
+      settingsGuide: "PDF wakichawi guía",
       queue: "Lurawi suyu",
       analyzing: "Local uñakipaski...",
       startAnalysis: "Uñakipaña qalltaña",
@@ -366,6 +382,8 @@
       modelAuto: "Modelo automático",
       modelReady: "modelo wakichata",
       modelFallback: "ONNX jan utjki, heurístico",
+      creatorsGroup: "Luririnaka",
+      collaboratorsGroup: "Yanapt'irinaka",
       segment: "minuto"
     },
     qu: {
@@ -387,6 +405,7 @@
       threshold: "Detección umbral",
       minDuration: "Pisi pacha",
       adjustSens: "Modelo umbral allinchay, Telmatobius rubigo takiyta riqsinapaq.",
+      settingsGuide: "PDF wakichiy guía",
       queue: "Ruray suyu",
       analyzing: "Localpi qhawachkan...",
       startAnalysis: "Qhawariyta qallariy",
@@ -427,6 +446,8 @@
       modelAuto: "Modelo automático",
       modelReady: "modelo listo",
       modelFallback: "ONNX mana kanchu, heurístico",
+      creatorsGroup: "Ruraqkuna",
+      collaboratorsGroup: "Yanapaqkuna",
       segment: "minuto"
     }
   };

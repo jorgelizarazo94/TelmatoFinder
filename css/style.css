@@ -29,21 +29,112 @@ select {
   background: linear-gradient(135deg, #064e3b, #334155);
 }
 
+.partner-strip {
+  background:
+    linear-gradient(135deg, rgba(15, 23, 42, 0.98), rgba(6, 78, 59, 0.96)),
+    #0f172a;
+  border-bottom: 1px solid rgba(16, 185, 129, 0.2);
+  box-shadow: 0 10px 28px rgba(15, 23, 42, 0.22);
+  position: relative;
+  z-index: 360;
+}
+
+.partner-strip-inner {
+  align-items: center;
+  display: flex;
+  gap: 1.2rem;
+  justify-content: center;
+  margin: 0 auto;
+  max-width: 80rem;
+  padding: 0.72rem 1.5rem 0.78rem;
+}
+
+.partner-group {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  min-width: 0;
+}
+
+.partner-group-creators {
+  flex: 1 1 44rem;
+}
+
+.partner-group-collaborators {
+  border-left: 1px solid rgba(209, 250, 229, 0.28);
+  flex: 0 1 25rem;
+  padding-left: 1.2rem;
+}
+
+.partner-group-title {
+  color: #a7f3d0;
+  font-size: 0.68rem;
+  font-weight: 850;
+  letter-spacing: 0.16em;
+  line-height: 1;
+  text-shadow: 0 1px 12px rgba(16, 185, 129, 0.28);
+  text-transform: uppercase;
+}
+
+.partner-logo-row {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  justify-content: center;
+}
+
+.partner-subgroup {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+}
+
+.partner-subgroup-lead {
+  padding-right: 0.9rem;
+}
+
+.partner-subgroup-institutions {
+  border-left: 1px solid rgba(209, 250, 229, 0.28);
+  padding-left: 0.9rem;
+}
+
+.partner-link {
+  align-items: center;
+  border-radius: 0.45rem;
+  display: inline-flex;
+  transition: transform 150ms ease, filter 150ms ease;
+}
+
+.partner-link:hover {
+  filter: brightness(1.08);
+  transform: translateY(-1px);
+}
+
 .partner-logo {
-  height: 2.85rem;
-  max-width: 13.5rem;
+  height: 2.55rem;
+  max-width: 12.25rem;
   object-fit: contain;
-  background: rgba(248, 250, 252, 0.94);
+  background: rgba(255, 255, 255, 0.96);
+  border: 1px solid rgba(255, 255, 255, 0.35);
   border-radius: 0.35rem;
-  padding: 0.22rem 0.55rem;
+  padding: 0.25rem 0.55rem;
+  box-shadow: 0 6px 18px rgba(2, 6, 23, 0.2);
   color: #94a3b8;
   font-size: 10px;
 }
 
 .partner-logo-wildlabs {
-  height: 3.75rem;
-  max-width: 19rem;
+  height: 3.15rem;
+  max-width: 18rem;
   padding: 0.28rem 0.72rem;
+}
+
+.partner-logo-local {
+  height: 2.82rem;
+  max-width: 13.2rem;
 }
 
 .partner-logo.missing {
@@ -301,6 +392,27 @@ select {
   background: #ecfdf5;
 }
 
+.settings-guide-link {
+  align-items: center;
+  background: #ffffff;
+  border: 1px solid #a7f3d0;
+  border-radius: 0.55rem;
+  color: #047857;
+  display: inline-flex;
+  font-size: 0.78rem;
+  font-weight: 800;
+  gap: 0.45rem;
+  padding: 0.55rem 0.7rem;
+  text-decoration: none;
+  transition: background 150ms ease, border-color 150ms ease, transform 150ms ease;
+}
+
+.settings-guide-link:hover {
+  background: #ecfdf5;
+  border-color: #34d399;
+  transform: translateY(-1px);
+}
+
 .language-flag,
 .language-flag-lg {
   border: 1px solid #e2e8f0;
@@ -347,14 +459,56 @@ select {
 }
 
 @media (max-width: 700px) {
+  .partner-strip-inner {
+    flex-direction: column;
+    gap: 0.7rem;
+    padding: 0.7rem 0.85rem;
+  }
+
+  .partner-group {
+    align-items: flex-start;
+    border-left: 0;
+    flex: 1 1 auto;
+    padding: 0.55rem;
+    width: 100%;
+  }
+
+  .partner-group-collaborators {
+    border-top: 1px solid rgba(209, 250, 229, 0.24);
+    padding-left: 0.55rem;
+    padding-top: 0.75rem;
+  }
+
+  .partner-logo-row {
+    gap: 0.6rem;
+    justify-content: flex-start;
+  }
+
+  .partner-subgroup-lead {
+    padding-right: 0;
+  }
+
+  .partner-subgroup-institutions {
+    border-left: 0;
+    border-top: 1px solid rgba(209, 250, 229, 0.24);
+    padding-left: 0;
+    padding-top: 0.55rem;
+    width: 100%;
+  }
+
   .partner-logo {
-    height: 2.15rem;
-    max-width: 8.5rem;
+    height: 2rem;
+    max-width: 8.4rem;
   }
 
   .partner-logo-wildlabs {
-    height: 2.85rem;
-    max-width: 11rem;
+    height: 2.55rem;
+    max-width: 12.25rem;
+  }
+
+  .partner-logo-local {
+    height: 2.25rem;
+    max-width: 9.5rem;
   }
 
   .project-logo-hero {
@@ -390,6 +544,17 @@ select {
   gap: 0.65rem;
   justify-content: center;
   margin-bottom: 1rem;
+}
+
+.modal-logo-link {
+  border-radius: 0.65rem;
+  display: inline-flex;
+  transition: filter 150ms ease, transform 150ms ease;
+}
+
+.modal-logo-link:hover {
+  filter: brightness(1.04);
+  transform: translateY(-1px);
 }
 
 .modal-project-logo {
