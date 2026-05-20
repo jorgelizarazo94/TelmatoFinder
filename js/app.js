@@ -3,7 +3,7 @@
 
   const translations = {
     es: {
-      flag: "img/flags/ar.svg", langName: "Español",
+      flag: "img/flag-ar.png", langName: "Español",
       subtitle: "Análisis Acústico Local",
       clearAll: "Limpiar Todo",
       removeAudio: "Quitar",
@@ -64,7 +64,7 @@
       segment: "minuto"
     },
     en: {
-      flag: "img/flags/ca.svg", langName: "English",
+      flag: "img/flag-ca.png", langName: "English",
       subtitle: "Local Acoustic Analysis",
       clearAll: "Clear All",
       removeAudio: "Remove",
@@ -125,7 +125,7 @@
       segment: "minute"
     },
     pt: {
-      flag: "img/flags/br.svg", langName: "Português",
+      flag: "img/flag-br.png", langName: "Português",
       subtitle: "Análise Acústica Local",
       clearAll: "Limpar Tudo",
       removeAudio: "Remover",
@@ -186,7 +186,7 @@
       segment: "minuto"
     },
     fr: {
-      flag: "img/flags/qc.svg", langName: "Français (Québec)",
+      flag: "img/flag-qc.png", langName: "Français (Québec)",
       subtitle: "Analyse Acoustique Locale",
       clearAll: "Tout Effacer",
       removeAudio: "Retirer",
@@ -247,7 +247,7 @@
       segment: "minute"
     },
     gn: {
-      flag: "img/flags/py.svg", langName: "Guaraní",
+      flag: "img/flag-py.png", langName: "Guaraní",
       subtitle: "Ñe'ẽrypu Pysyrõha Local",
       clearAll: "Mopotĩmba",
       removeAudio: "Nohẽ",

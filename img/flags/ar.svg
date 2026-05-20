@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 48" role="img" aria-label="Argentina flag">
+  <rect width="72" height="16" fill="#75aadb"/>
+  <rect y="16" width="72" height="16" fill="#fff"/>
+  <rect y="32" width="72" height="16" fill="#75aadb"/>
+  <g transform="translate(36 24)">
+    <g stroke="#f6b40e" stroke-width="1.15" stroke-linecap="round">
+      <path d="M0-8.5V-6.2M0 6.2v2.3M-8.5 0h2.3M6.2 0h2.3"/>
+      <path d="M-6-6l1.6 1.6M4.4 4.4 6 6M6-6 4.4-4.4M-4.4 4.4-6 6"/>
+      <path d="M-3.2-7.8l.8 2M2.4 5.8l.8 2M3.2-7.8l-.8 2M-2.4 5.8l-.8 2"/>
+      <path d="M-7.8-3.2l2 .8M5.8 2.4l2 .8M7.8-3.2l-2 .8M-5.8 2.4l-2 .8"/>
+    </g>
+    <circle r="4.8" fill="#f6b40e" stroke="#c47f00" stroke-width=".55"/>
+    <path d="M-2.2-1.2c.7-.55 1.4-.55 2.2 0 .8-.55 1.5-.55 2.2 0" fill="none" stroke="#7a3b10" stroke-width=".45" stroke-linecap="round"/>
+    <path d="M-1.1 1.6c.8.45 1.4.45 2.2 0" fill="none" stroke="#7a3b10" stroke-width=".45" stroke-linecap="round"/>
+  </g>
+</svg>

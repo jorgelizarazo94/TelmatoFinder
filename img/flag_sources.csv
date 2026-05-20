@@ -1,0 +1,6 @@
+file,language,source,source_url,notes
+flag-ar.png,Spanish,Wikimedia Commons,https://commons.wikimedia.org/wiki/File:Flag_of_Argentina.svg,Local thumbnail for deployment.
+flag-ca.png,English,Wikimedia Commons,https://commons.wikimedia.org/wiki/File:Flag_of_Canada.svg,Local thumbnail for deployment.
+flag-br.png,Portuguese,Wikimedia Commons,https://commons.wikimedia.org/wiki/File:Flag_of_Brazil.svg,Local thumbnail for deployment.
+flag-qc.png,French (Quebec),Wikimedia Commons,https://commons.wikimedia.org/wiki/File:Flag_of_Quebec.svg,Local thumbnail for deployment.
+flag-py.png,Guarani,FlagCDN,https://flagcdn.com/,Local thumbnail for deployment; used after Wikimedia rate-limit during download.
