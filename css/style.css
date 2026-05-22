@@ -161,6 +161,19 @@ select {
   padding: 0.6rem 0.9rem;
 }
 
+.author-orcid-link {
+  border-bottom: 1px solid rgba(167, 243, 208, 0.5);
+  color: rgba(209, 250, 229, 0.96);
+  text-decoration: none;
+  transition: color 150ms ease, border-color 150ms ease;
+}
+
+.author-orcid-link:hover,
+.author-orcid-link:focus-visible {
+  border-color: #ffffff;
+  color: #ffffff;
+}
+
 .edit-key {
   background: white;
   border: 1px solid #a7f3d0;
