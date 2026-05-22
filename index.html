@@ -19,13 +19,33 @@
   <link rel="preload" as="image" href="img/flag-py.png">
   <link rel="preload" as="image" href="img/symbol-aymara.svg">
   <link rel="preload" as="image" href="img/symbol-quechua.svg">
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/style.css?v=20260521-metadata3">
   <script src="https://cdn.tailwindcss.com"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/onnxruntime-web/dist/ort.min.js"></script>
   <script defer src="https://unpkg.com/lucide@latest"></script>
-  <script defer src="js/app.js"></script>
+  <script defer src="js/app.js?v=20260521-metadata3"></script>
 </head>
 <body class="min-h-screen bg-slate-50 text-slate-900 font-sans pb-12 relative overflow-x-hidden">
+  <div id="accessModal" class="fixed inset-0 bg-slate-950/88 backdrop-blur-md z-[850] flex items-center justify-center p-4">
+    <form id="accessForm" class="access-card" autocomplete="off">
+      <img src="img/logo_telmatofinder_horizontal.svg" alt="TelmatoFinder" class="access-logo">
+      <div class="access-lock">
+        <i data-lucide="lock-keyhole" class="w-8 h-8"></i>
+      </div>
+      <h2>Plataforma en acceso cerrado</h2>
+      <p>
+        Por el momento esta plataforma está cerrada mientras esperamos la publicación asociada al proyecto.
+      </p>
+      <p>
+        For now, this platform is closed while we wait for the associated project publication.
+      </p>
+      <label class="access-label" for="accessPasswordInput">Contraseña / Password</label>
+      <input id="accessPasswordInput" class="access-input" type="password" inputmode="text" autocomplete="current-password" placeholder="Enter password">
+      <div id="accessError" class="access-error hidden">Contraseña incorrecta / Incorrect password</div>
+      <button id="accessPasswordButton" class="access-button" type="submit">Entrar / Enter</button>
+    </form>
+  </div>
+
   <div id="welcomeModal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-md z-[700] flex items-center justify-center p-4">
     <div class="bg-white rounded-2xl shadow-2xl max-w-lg w-full overflow-hidden p-8 text-center flex flex-col max-h-[90vh]">
       <div class="overflow-y-auto no-scrollbar pb-4">
@@ -70,8 +90,6 @@
             <a href="https://inecoa-unju.conicet.gov.ar/" target="_blank" rel="noopener noreferrer" class="partner-link"><img src="img/INECOA.svg" alt="INECOA" class="partner-logo partner-logo-inecoa"></a>
           </div>
           <div class="partner-subgroup partner-subgroup-institutions">
-            <a href="https://www.conicet.gov.ar/?lan=en" target="_blank" rel="noopener noreferrer" class="partner-link"><img src="img/CONICET.svg" alt="CONICET" class="partner-logo partner-logo-local"></a>
-            <a href="https://www.unju.edu.ar/" target="_blank" rel="noopener noreferrer" class="partner-link"><img src="img/logo_unju_800.svg" alt="Universidad Nacional de Jujuy" class="partner-logo partner-logo-local"></a>
             <a href="https://www.arm.com/" target="_blank" rel="noopener noreferrer" class="partner-link"><img src="img/ARM.svg" alt="Arm" class="partner-logo"></a>
           </div>
         </div>
@@ -212,7 +230,7 @@
             <i data-lucide="info" class="w-6 h-6 shrink-0 text-emerald-600 mt-0.5"></i>
             <div class="space-y-3">
               <p class="leading-relaxed" data-i18n="adjustSens">Ajusta la sensibilidad para calibrar la detección de cantos.</p>
-              <a class="settings-guide-link" href="docs/inference_settings_guide.pdf" target="_blank" rel="noopener noreferrer">
+              <a class="settings-guide-link" href="docs/inference_settings_guide.pdf?v=20260521-unicode" target="_blank" rel="noopener noreferrer">
                 <i data-lucide="book-open" class="w-4 h-4"></i>
                 <span data-i18n="settingsGuide">Guía de ajustes PDF</span>
               </a>

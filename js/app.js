@@ -458,9 +458,11 @@
   const HOP_LENGTH = 512;
   const N_MELS = 64;
   const MAX_DISPLAY_HZ = 2000;
+  const ACCESS_PASSWORD = "wildlabs2024latam";
 
   const state = {
     lang: "es",
+    accessGranted: false,
     accepted: false,
     session: null,
     modelReady: false,
@@ -489,6 +491,7 @@
 
   function init() {
     state.lang = localStorage.getItem("telmatofinder_lang") || "es";
+    state.accessGranted = sessionStorage.getItem("telmatofinder_access_granted") === "true";
     state.accepted = false;
     bindEvents();
     buildLanguageControls();
@@ -496,11 +499,17 @@
     hideMissingImages();
     renderIcons();
     renderExamples();
+    updateAccessModal();
     updateWelcomeModal();
     if (state.accepted) loadDefaultModel();
   }
 
   function bindEvents() {
+    $("accessForm").addEventListener("submit", handleAccessSubmit);
+    $("accessPasswordButton").addEventListener("click", handleAccessSubmit);
+    $("accessPasswordInput").addEventListener("keydown", (event) => {
+      if (event.key === "Enter") handleAccessSubmit(event);
+    });
     $("acceptTermsButton").addEventListener("click", () => {
       localStorage.removeItem("telmatofinder_terms");
       state.accepted = true;
@@ -550,6 +559,24 @@
       handleEditKeydown(event);
     });
     window.addEventListener("resize", debounce(renderMinuteEditor, 150));
+  }
+
+  function handleAccessSubmit(event) {
+    event.preventDefault();
+    const input = $("accessPasswordInput");
+    const error = $("accessError");
+    const candidate = input.value.trim().toLowerCase();
+    if (candidate === ACCESS_PASSWORD) {
+      state.accessGranted = true;
+      sessionStorage.setItem("telmatofinder_access_granted", "true");
+      input.value = "";
+      error.classList.add("hidden");
+      updateAccessModal();
+      updateWelcomeModal();
+      return;
+    }
+    error.classList.remove("hidden");
+    input.select();
   }
 
   function buildLanguageControls() {
@@ -613,7 +640,14 @@
   }
 
   function updateWelcomeModal() {
-    $("welcomeModal").classList.toggle("hidden", state.accepted);
+    $("welcomeModal").classList.toggle("hidden", !state.accessGranted || state.accepted);
+  }
+
+  function updateAccessModal() {
+    $("accessModal").classList.toggle("hidden", state.accessGranted);
+    if (!state.accessGranted) {
+      setTimeout(() => $("accessPasswordInput").focus(), 0);
+    }
   }
 
   function hideMissingImages() {
@@ -823,7 +857,8 @@
               startSec: event.startSec,
               endSec: event.endSec,
               peakProbability: event.peakProbability,
-              label: "Telmatobius"
+              label: "Telmatobius",
+              ...metadataForDetection(decoded.metadata, event.startSec, event.endSec)
             });
           });
         }
@@ -849,6 +884,8 @@
     if (state.decoded.has(audio.id)) return state.decoded.get(audio.id);
     const audioContext = new (window.AudioContext || window.webkitAudioContext)();
     const arrayBuffer = await audio.file.arrayBuffer();
+    const metadata = extractWavMetadata(arrayBuffer);
+    audio.metadata = metadata;
     const audioBuffer = await audioContext.decodeAudioData(arrayBuffer.slice(0));
     const mixed = mixChannels(audioBuffer);
     const resampled = resampleLinear(mixed, audioBuffer.sampleRate, TARGET_SAMPLE_RATE);
@@ -856,11 +893,110 @@
       audioId: audio.id,
       samples: resampled,
       durationSec: audioBuffer.duration,
-      sampleRate: TARGET_SAMPLE_RATE
+      sampleRate: TARGET_SAMPLE_RATE,
+      metadata
     };
     state.decoded.set(audio.id, decoded);
     await audioContext.close();
     return decoded;
+  }
+
+  function extractWavMetadata(arrayBuffer) {
+    const metadata = {
+      recordedAtUtc: "",
+      temperatureC: "",
+      batteryV: "",
+      recorder: "",
+      comment: "",
+      source: ""
+    };
+    const view = new DataView(arrayBuffer);
+    if (arrayBuffer.byteLength < 12 || readAscii(view, 0, 4) !== "RIFF" || readAscii(view, 8, 4) !== "WAVE") {
+      return metadata;
+    }
+    let offset = 12;
+    const textChunks = [];
+    while (offset + 8 <= view.byteLength) {
+      const id = readAscii(view, offset, 4);
+      const size = view.getUint32(offset + 4, true);
+      const start = offset + 8;
+      const end = Math.min(start + size, view.byteLength);
+      if (id === "LIST" || id === "bext" || id === "iXML" || id === "axml") {
+        textChunks.push(readChunkText(arrayBuffer, start, end));
+      }
+      offset = end + (size % 2);
+      if (id === "data") break;
+    }
+    const text = textChunks.join(" ").replace(/\s+/g, " ").trim();
+    metadata.comment = text;
+    const tempMatch = text.match(/temperature\s+was\s+(-?\d+(?:\.\d+)?)\s*°?\s*C/i);
+    if (tempMatch) {
+      metadata.temperatureC = tempMatch[1];
+      metadata.source = "wav_metadata";
+    }
+    const batteryMatch = text.match(/battery\s+was\s+(-?\d+(?:\.\d+)?)\s*V/i);
+    if (batteryMatch) metadata.batteryV = batteryMatch[1];
+    const recorderMatch = text.match(/by\s+([^ ]+\s+[A-Z0-9]+)\s+at\s+/i);
+    if (recorderMatch) metadata.recorder = recorderMatch[1].trim();
+    const recordedMatch = text.match(/Recorded\s+at\s+(\d{1,2}):(\d{2}):(\d{2})\s+(\d{1,2})\/(\d{1,2})\/(\d{4})\s+\(UTC\)/i);
+    if (recordedMatch) {
+      const [, hh, mm, ss, dd, mo, yyyy] = recordedMatch;
+      metadata.recordedAtUtc = new Date(Date.UTC(
+        Number(yyyy),
+        Number(mo) - 1,
+        Number(dd),
+        Number(hh),
+        Number(mm),
+        Number(ss)
+      )).toISOString().replace("Z", "+00:00");
+      if (!metadata.source) metadata.source = "wav_metadata";
+    }
+    return metadata;
+  }
+
+  function readAscii(view, offset, length) {
+    let out = "";
+    for (let i = 0; i < length && offset + i < view.byteLength; i += 1) {
+      out += String.fromCharCode(view.getUint8(offset + i));
+    }
+    return out;
+  }
+
+  function readChunkText(arrayBuffer, start, end) {
+    const bytes = new Uint8Array(arrayBuffer, start, Math.max(0, end - start));
+    const cleaned = new Uint8Array(bytes.length);
+    for (let i = 0; i < bytes.length; i += 1) {
+      const value = bytes[i];
+      cleaned[i] = value >= 32 && value <= 126 ? value : 32;
+    }
+    return new TextDecoder("latin1").decode(cleaned);
+  }
+
+  function metadataForDetection(metadata, startSec, endSec) {
+    const recordedAtUtc = metadata?.recordedAtUtc || "";
+    return {
+      recordedAtUtc,
+      eventStartUtc: addSecondsToUtc(recordedAtUtc, startSec),
+      eventEndUtc: addSecondsToUtc(recordedAtUtc, endSec),
+      temperatureC: metadata?.temperatureC || "",
+      temperatureSource: metadata?.source || "",
+      batteryV: metadata?.batteryV || "",
+      recorder: metadata?.recorder || ""
+    };
+  }
+
+  function addSecondsToUtc(isoDate, seconds) {
+    if (!isoDate) return "";
+    const base = new Date(isoDate);
+    if (Number.isNaN(base.getTime())) return "";
+    return new Date(base.getTime() + Math.round(seconds * 1000)).toISOString().replace("Z", "+00:00");
+  }
+
+  function metadataForAudio(audioId) {
+    const decoded = state.decoded.get(audioId);
+    if (decoded?.metadata) return decoded.metadata;
+    const audio = state.files.find((item) => item.id === audioId);
+    return audio?.metadata || {};
   }
 
   function mixChannels(audioBuffer) {
@@ -1494,7 +1630,8 @@
       startSec,
       endSec,
       peakProbability: 1,
-      label: "Telmatobius"
+      label: "Telmatobius",
+      ...metadataForDetection(group.decoded?.metadata || group.audio.metadata, startSec, endSec)
     };
     state.detections.push(det);
     state.detections.sort((x, y) => x.filename.localeCompare(y.filename) || x.startSec - y.startSec);
@@ -1705,19 +1842,56 @@
   function exportCSV() {
     if (!state.detections.length) return;
     const rows = [
-      ["filename", "segment_index", "segment_start_sec", "start_sec", "end_sec", "duration_sec", "peak_probability", "label"],
-      ...state.detections.map((det) => [
-        det.filename,
-        det.segmentIndex,
-        det.segmentStartSec.toFixed(3),
-        det.startSec.toFixed(3),
-        det.endSec.toFixed(3),
-        (det.endSec - det.startSec).toFixed(3),
-        det.peakProbability.toFixed(6),
-        det.label
-      ])
+      [
+        "filename",
+        "segment_index",
+        "segment_start_sec",
+        "start_sec",
+        "end_sec",
+        "duration_sec",
+        "peak_probability",
+        "label",
+        "recorded_at_utc",
+        "event_start_datetime_utc",
+        "event_end_datetime_utc",
+        "temperature_c",
+        "temperature_source",
+        "audiomoth_battery_v",
+        "recorder"
+      ],
+      ...state.detections.map((det) => {
+        const fallback = metadataForDetection(metadataForAudio(det.audioId), det.startSec, det.endSec);
+        const fields = { ...fallback, ...det };
+        return [
+          det.filename,
+          det.segmentIndex,
+          det.segmentStartSec.toFixed(3),
+          det.startSec.toFixed(3),
+          det.endSec.toFixed(3),
+          (det.endSec - det.startSec).toFixed(3),
+          det.peakProbability.toFixed(6),
+          det.label,
+          fields.recordedAtUtc,
+          fields.eventStartUtc,
+          fields.eventEndUtc,
+          fields.temperatureC,
+          fields.temperatureSource,
+          fields.batteryV,
+          fields.recorder
+        ];
+      })
     ];
     const csv = rows.map((row) => row.map(csvCell).join(",")).join("\n");
+    window.__telmatofinderLastCsv = csv;
+    let csvStore = document.getElementById("telmatofinderCsvStore");
+    if (!csvStore) {
+      csvStore = document.createElement("textarea");
+      csvStore.id = "telmatofinderCsvStore";
+      csvStore.hidden = true;
+      document.body.appendChild(csvStore);
+    }
+    csvStore.value = csv;
+    csvStore.textContent = csv;
     const blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
