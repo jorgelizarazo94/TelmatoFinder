@@ -64,7 +64,17 @@
       modelFallback: "sin ONNX, modo heurístico",
       creatorsGroup: "Creadores",
       collaboratorsGroup: "Colaboradores",
-      segment: "minuto"
+      segment: "minuto",
+      fileSummaryTitle: "Resumen por archivo",
+      fileSummaryText: "{total} archivos analizados: {positive} con rana, {negative} sin rana, {errors} con error.",
+      downloadFileCsv: "Descargar CSV por archivo",
+      folderPrediction: "Rana",
+      folderEvents: "Eventos",
+      folderMaxProb: "Prob. máx.",
+      folderStatus: "Estado",
+      detectedYes: "Sí",
+      detectedNo: "No",
+      noAudioInFolder: "No se encontraron audios compatibles en la carpeta seleccionada."
     },
     en: {
       flag: "img/flag-ca.png", langName: "English",
@@ -128,7 +138,17 @@
       modelFallback: "no ONNX, heuristic mode",
       creatorsGroup: "Creators",
       collaboratorsGroup: "Collaborators",
-      segment: "minute"
+      segment: "minute",
+      fileSummaryTitle: "File-level summary",
+      fileSummaryText: "{total} files analysed: {positive} with frog, {negative} without frog, {errors} with error.",
+      downloadFileCsv: "Download file CSV",
+      folderPrediction: "Frog",
+      folderEvents: "Events",
+      folderMaxProb: "Max prob.",
+      folderStatus: "Status",
+      detectedYes: "Yes",
+      detectedNo: "No",
+      noAudioInFolder: "No compatible audio files were found in the selected folder."
     },
     pt: {
       flag: "img/flag-br.png", langName: "Português",
@@ -192,7 +212,17 @@
       modelFallback: "sem ONNX, modo heurístico",
       creatorsGroup: "Criadores",
       collaboratorsGroup: "Colaboradores",
-      segment: "minuto"
+      segment: "minuto",
+      fileSummaryTitle: "Resumo por arquivo",
+      fileSummaryText: "{total} arquivos analisados: {positive} com rã, {negative} sem rã, {errors} com erro.",
+      downloadFileCsv: "Baixar CSV por arquivo",
+      folderPrediction: "Rã",
+      folderEvents: "Eventos",
+      folderMaxProb: "Prob. máx.",
+      folderStatus: "Estado",
+      detectedYes: "Sim",
+      detectedNo: "Não",
+      noAudioInFolder: "Nenhum áudio compatível foi encontrado na pasta selecionada."
     },
     fr: {
       flag: "img/flag-qc.png", langName: "Français (Québec)",
@@ -256,7 +286,17 @@
       modelFallback: "sans ONNX, mode heuristique",
       creatorsGroup: "Créateurs",
       collaboratorsGroup: "Collaborateurs",
-      segment: "minute"
+      segment: "minute",
+      fileSummaryTitle: "Résumé par fichier",
+      fileSummaryText: "{total} fichiers analysés: {positive} avec grenouille, {negative} sans grenouille, {errors} avec erreur.",
+      downloadFileCsv: "Télécharger CSV par fichier",
+      folderPrediction: "Grenouille",
+      folderEvents: "Événements",
+      folderMaxProb: "Prob. max.",
+      folderStatus: "État",
+      detectedYes: "Oui",
+      detectedNo: "Non",
+      noAudioInFolder: "Aucun audio compatible n'a été trouvé dans le dossier sélectionné."
     },
     gn: {
       flag: "img/flag-py.png", langName: "Guaraní",
@@ -320,7 +360,17 @@
       modelFallback: "ONNX ndaipóri, heurístico",
       creatorsGroup: "Apoharakuéra",
       collaboratorsGroup: "Pytyvõharakuéra",
-      segment: "minuto"
+      segment: "minuto",
+      fileSummaryTitle: "Archivo resumen",
+      fileSummaryText: "{total} archivo ojehecha: {positive} rana reheve, {negative} rana'ỹre, {errors} jejavy reheve.",
+      downloadFileCsv: "Mboguejy CSV archivo rehegua",
+      folderPrediction: "Rana",
+      folderEvents: "Eventos",
+      folderMaxProb: "Prob. máx.",
+      folderStatus: "Estado",
+      detectedYes: "Heẽ",
+      detectedNo: "Nahániri",
+      noAudioInFolder: "Ndojejuhúi audio ojepurukuaáva carpeta ojeporavóvape."
     },
     ay: {
       flag: "img/symbol-aymara.svg", langName: "Aymara (Jujuy / Andes)",
@@ -384,7 +434,17 @@
       modelFallback: "ONNX jan utjki, heurístico",
       creatorsGroup: "Luririnaka",
       collaboratorsGroup: "Yanapt'irinaka",
-      segment: "minuto"
+      segment: "minuto",
+      fileSummaryTitle: "Archivo resumen",
+      fileSummaryText: "{total} archivo uñakipata: {positive} rana ukampi, {negative} rana jan ukampi, {errors} pantjasiwi.",
+      downloadFileCsv: "CSV archivo apaqaña",
+      folderPrediction: "Rana",
+      folderEvents: "Eventos",
+      folderMaxProb: "Prob. máx.",
+      folderStatus: "Estado",
+      detectedYes: "Jisa",
+      detectedNo: "Jani",
+      noAudioInFolder: "Janiw audio compatible ukax carpeta ajllitan jikxataskiti."
     },
     qu: {
       flag: "img/symbol-quechua.svg", langName: "Quechua / Runasimi (Jujuy / Andes)",
@@ -448,7 +508,17 @@
       modelFallback: "ONNX mana kanchu, heurístico",
       creatorsGroup: "Ruraqkuna",
       collaboratorsGroup: "Yanapaqkuna",
-      segment: "minuto"
+      segment: "minuto",
+      fileSummaryTitle: "Archivo resumen",
+      fileSummaryText: "{total} archivo qhawasqa: {positive} rana nisqawan, {negative} mana ranawan, {errors} pantaywan.",
+      downloadFileCsv: "CSV archivo uraykachiy",
+      folderPrediction: "Rana",
+      folderEvents: "Eventos",
+      folderMaxProb: "Prob. máx.",
+      folderStatus: "Estado",
+      detectedYes: "Ari",
+      detectedNo: "Mana",
+      noAudioInFolder: "Mana audio compatible tarisqachu akllasqa carpetapi."
     }
   };
 
@@ -472,6 +542,7 @@
     examples: [],
     detections: [],
     fileRows: [],
+    queueMessage: "",
     isAnalyzing: false,
     isEditMode: false,
     selectedId: null,
@@ -524,7 +595,7 @@
     $("closePrivacyButton").addEventListener("click", () => $("privacyPopup").classList.add("hidden"));
     $("privacyOkButton").addEventListener("click", () => $("privacyPopup").classList.add("hidden"));
     $("audioInput").addEventListener("change", (event) => addFiles(event.target.files));
-    $("folderInput").addEventListener("change", (event) => addFiles(event.target.files));
+    $("folderInput").addEventListener("change", handleFolderUpload);
     $("chooseFilesButton").addEventListener("click", () => $("audioInput").click());
     $("chooseFolderButton").addEventListener("click", () => $("folderInput").click());
     $("modelInput").addEventListener("change", handleModelUpload);
@@ -534,6 +605,7 @@
     $("toggleEditButton").addEventListener("click", toggleEditMode);
     $("stopAudioButton").addEventListener("click", stopPlayback);
     $("downloadCsvButton").addEventListener("click", exportCSV);
+    $("downloadFileCsvButton").addEventListener("click", exportFileLevelCSV);
     $("thresholdInput").addEventListener("input", () => $("thresholdValue").textContent = Number($("thresholdInput").value).toFixed(3));
     $("minDurationInput").addEventListener("input", () => $("minDurationValue").textContent = `${Number($("minDurationInput").value).toFixed(2)} s`);
     $("languageTrigger").addEventListener("click", (event) => {
@@ -559,6 +631,20 @@
       handleEditKeydown(event);
     });
     window.addEventListener("resize", debounce(renderMinuteEditor, 150));
+  }
+
+  async function handleFolderUpload(event) {
+    const files = Array.from(event.target.files || []);
+    clearAll();
+    const added = addFiles(files);
+    $("folderInput").value = "";
+    if (!added) {
+      state.queueMessage = translations[state.lang].noAudioInFolder;
+      renderQueue();
+      return;
+    }
+    await nextFrame();
+    analyseFiles();
   }
 
   function handleAccessSubmit(event) {
@@ -607,6 +693,7 @@
     translatePage();
     renderExamples();
     renderQueue();
+    renderFileSummary();
     renderResults();
     renderMinuteEditor();
   }
@@ -761,19 +848,26 @@
   }
 
   function addFiles(fileList, shouldRender = true) {
+    let added = 0;
     Array.from(fileList || []).forEach((file) => {
       if (!isAudioFile(file)) return;
       const id = randomId();
+      const relativePath = file.webkitRelativePath || file.name;
       state.files.push({
         id,
         file,
-        name: file.webkitRelativePath || file.name,
+        name: relativePath,
+        filename: file.name,
+        relativePath,
         size: file.size,
         status: "Pendiente",
         url: URL.createObjectURL(file)
       });
+      added += 1;
     });
+    if (added) state.queueMessage = "";
     if (shouldRender) renderQueue();
+    return added;
   }
 
   function isAudioFile(file) {
@@ -781,9 +875,11 @@
   }
 
   function renderQueue() {
-    $("queuePanel").classList.toggle("hidden", state.files.length === 0);
+    $("queuePanel").classList.toggle("hidden", state.files.length === 0 && !state.queueMessage);
     $("queueCount").textContent = `(${state.files.length})`;
-    $("queueList").innerHTML = state.files.map((audio) => `
+    $("queueList").innerHTML = state.queueMessage ? `
+      <div class="queue-message">${escapeHtml(state.queueMessage)}</div>
+    ` : state.files.map((audio) => `
       <div class="flex items-center justify-between p-3 hover:bg-slate-50 rounded-xl border border-slate-100 transition">
         <div class="flex items-center gap-3 min-w-0">
           <div class="w-10 h-10 rounded-lg bg-emerald-50 text-emerald-700 flex items-center justify-center font-mono text-xs font-bold border border-emerald-100">${escapeHtml(extension(audio.name))}</div>
@@ -814,10 +910,14 @@
 
   async function analyseFiles() {
     if (!state.files.length || state.isAnalyzing) return;
+    const threshold = Number($("thresholdInput").value);
+    const minDuration = Number($("minDurationInput").value);
     state.isAnalyzing = true;
     state.detections = [];
     state.fileRows = [];
+    state.queueMessage = "";
     state.selectedId = null;
+    renderFileSummary();
     $("progressWrap").classList.remove("hidden");
     setProgress(0);
     $("analyseButton").disabled = true;
@@ -839,8 +939,8 @@
           const smoothed = smooth(probabilities, 3);
           maxProbability = Math.max(maxProbability, maxValue(smoothed));
           const events = probabilitiesToEvents(smoothed, {
-            threshold: Number($("thresholdInput").value),
-            minDuration: Number($("minDurationInput").value),
+            threshold,
+            minDuration,
             mergeGap: 0.12,
             segmentIndex,
             segmentStart: segmentIndex * SEGMENT_SECONDS
@@ -862,10 +962,27 @@
             });
           });
         }
-        state.fileRows.push({ audioId: audio.id, filename: audio.name, maxProbability, eventCount });
         audio.status = "Completado";
+        state.fileRows.push(fileRowForAudio(audio, {
+          durationSec: decoded.durationSec,
+          eventCount,
+          maxProbability,
+          threshold,
+          minDuration,
+          status: audio.status,
+          metadata: decoded.metadata
+        }));
       } catch (error) {
         audio.status = "Error";
+        state.fileRows.push(fileRowForAudio(audio, {
+          durationSec: "",
+          eventCount: 0,
+          maxProbability: "",
+          threshold,
+          minDuration,
+          status: audio.status,
+          metadata: audio.metadata || {}
+        }));
         console.error(error);
       }
       setProgress(Math.round(((i + 1) / state.files.length) * 100));
@@ -875,9 +992,34 @@
     $("analyseButton").disabled = false;
     $("analyseButton").innerHTML = `<i data-lucide="play" class="w-4 h-4"></i><span>${translations[state.lang].startAnalysis}</span>`;
     renderQueue();
+    renderFileSummary();
     renderResults();
     renderMinuteEditor();
     renderIcons();
+  }
+
+  function fileRowForAudio(audio, details) {
+    const metadata = details.metadata || {};
+    return {
+      audioId: audio.id,
+      filename: audio.filename || baseName(audio.name),
+      relativePath: audio.relativePath || audio.name,
+      eventCount: details.eventCount || 0,
+      maxProbability: details.maxProbability,
+      threshold: details.threshold,
+      minDuration: details.minDuration,
+      status: details.status,
+      durationSec: details.durationSec,
+      recordedAtUtc: metadata.recordedAtUtc || "",
+      temperatureC: metadata.temperatureC || "",
+      batteryV: metadata.batteryV || "",
+      recorder: metadata.recorder || "",
+      modelMode: activeModelMode()
+    };
+  }
+
+  function activeModelMode() {
+    return state.modelReady ? state.modelMode : "heuristic";
   }
 
   async function decodeAudio(audio) {
@@ -1199,6 +1341,61 @@
       }
     });
     return merged.filter((event) => event.endSec - event.startSec >= minDuration);
+  }
+
+  function fileSummaryRows() {
+    return state.fileRows.map((row) => {
+      const currentEventCount = state.detections.filter((det) => det.audioId === row.audioId).length;
+      return {
+        ...row,
+        eventCount: currentEventCount,
+        hasTelmatobius: currentEventCount > 0 && row.status !== "Error"
+      };
+    });
+  }
+
+  function renderFileSummary() {
+    const panel = $("fileSummaryPanel");
+    const rows = fileSummaryRows();
+    panel.classList.toggle("hidden", rows.length === 0);
+    if (!rows.length) {
+      $("fileSummaryStats").innerHTML = "";
+      $("fileSummaryBody").innerHTML = "";
+      return;
+    }
+    const dict = translations[state.lang];
+    const total = rows.length;
+    const errors = rows.filter((row) => row.status === "Error").length;
+    const positive = rows.filter((row) => row.hasTelmatobius).length;
+    const negative = rows.filter((row) => !row.hasTelmatobius && row.status !== "Error").length;
+    $("fileSummaryText").textContent = dict.fileSummaryText
+      .replace("{total}", total)
+      .replace("{positive}", positive)
+      .replace("{negative}", negative)
+      .replace("{errors}", errors);
+    $("fileSummaryStats").innerHTML = `
+      <span class="file-stat file-stat-total">${total} total</span>
+      <span class="file-stat file-stat-positive">${positive} ${escapeHtml(dict.detectedYes)}</span>
+      <span class="file-stat file-stat-negative">${negative} ${escapeHtml(dict.detectedNo)}</span>
+      <span class="file-stat file-stat-error">${errors} error</span>
+    `;
+    $("fileSummaryBody").innerHTML = rows.map((row) => {
+      const status = row.status === "Error" ? "error" : row.hasTelmatobius ? "positive" : "negative";
+      return `
+        <tr class="file-summary-row file-summary-${status}">
+          <td class="px-6 py-4">
+            <p class="font-semibold text-sm text-slate-800">${escapeHtml(row.filename)}</p>
+            <p class="text-xs text-slate-500 mt-1">${escapeHtml(row.relativePath)}</p>
+          </td>
+          <td class="px-6 py-4 text-center"><span class="file-prediction-pill file-prediction-${status}">${escapeHtml(row.status === "Error" ? "Error" : row.hasTelmatobius ? dict.detectedYes : dict.detectedNo)}</span></td>
+          <td class="px-6 py-4 text-center font-mono text-sm">${row.eventCount}</td>
+          <td class="px-6 py-4 text-center font-mono text-sm">${formatProbability(row.maxProbability)}</td>
+          <td class="px-6 py-4 text-center"><span class="text-xs px-3 py-1 rounded-full font-bold border ${statusClass(row.status)}">${escapeHtml(row.status)}</span></td>
+          <td class="px-6 py-4 text-center font-mono text-sm">${formatDuration(row.durationSec)}</td>
+        </tr>
+      `;
+    }).join("");
+    renderIcons();
   }
 
   function renderResults() {
@@ -1636,6 +1833,7 @@
     state.detections.push(det);
     state.detections.sort((x, y) => x.filename.localeCompare(y.filename) || x.startSec - y.startSec);
     state.selectedId = det.id;
+    renderFileSummary();
     renderResults();
     renderMinuteEditor();
   }
@@ -1685,6 +1883,7 @@
 
   function updateLabel(id, label) {
     state.detections = state.detections.map((det) => det.id === id ? { ...det, label } : det);
+    renderFileSummary();
     renderResults();
     renderMinuteEditor();
   }
@@ -1692,6 +1891,7 @@
   function deleteEvent(id) {
     state.detections = state.detections.filter((det) => det.id !== id);
     state.selectedId = null;
+    renderFileSummary();
     renderResults();
     renderMinuteEditor();
   }
@@ -1707,6 +1907,7 @@
     state.files = state.files.filter((item) => item.id !== audioId);
     URL.revokeObjectURL(audio.url);
     renderQueue();
+    renderFileSummary();
     renderResults();
     renderMinuteEditor();
   }
@@ -1901,6 +2102,63 @@
     URL.revokeObjectURL(url);
   }
 
+  function exportFileLevelCSV() {
+    const rows = fileSummaryRows();
+    if (!rows.length) return;
+    const csvRows = [
+      [
+        "filename",
+        "relative_path",
+        "has_telmatobius",
+        "event_count",
+        "max_probability",
+        "threshold",
+        "minimum_duration_sec",
+        "status",
+        "duration_sec",
+        "recorded_at_utc",
+        "temperature_c",
+        "audiomoth_battery_v",
+        "recorder",
+        "model_mode"
+      ],
+      ...rows.map((row) => [
+        row.filename,
+        row.relativePath,
+        row.hasTelmatobius ? "true" : "false",
+        row.eventCount,
+        formatCsvNumber(row.maxProbability, 6),
+        formatCsvNumber(row.threshold, 3),
+        formatCsvNumber(row.minDuration, 3),
+        row.status,
+        formatCsvNumber(row.durationSec, 3),
+        row.recordedAtUtc,
+        row.temperatureC,
+        row.batteryV,
+        row.recorder,
+        row.modelMode
+      ])
+    ];
+    const csv = csvRows.map((row) => row.map(csvCell).join(",")).join("\n");
+    window.__telmatofinderLastFileCsv = csv;
+    let csvStore = document.getElementById("telmatofinderFileCsvStore");
+    if (!csvStore) {
+      csvStore = document.createElement("textarea");
+      csvStore.id = "telmatofinderFileCsvStore";
+      csvStore.hidden = true;
+      document.body.appendChild(csvStore);
+    }
+    csvStore.value = csv;
+    csvStore.textContent = csv;
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "telmatofinder_file_level_predictions.csv";
+    link.click();
+    URL.revokeObjectURL(url);
+  }
+
   function clearAll() {
     stopPlayback();
     state.files.forEach((audio) => URL.revokeObjectURL(audio.url));
@@ -1908,11 +2166,14 @@
     state.decoded.clear();
     state.detections = [];
     state.fileRows = [];
+    state.queueMessage = "";
     state.selectedId = null;
     $("audioInput").value = "";
+    $("folderInput").value = "";
     $("progressWrap").classList.add("hidden");
     setProgress(0);
     renderQueue();
+    renderFileSummary();
     renderResults();
     renderMinuteEditor();
   }
@@ -2098,6 +2359,26 @@
 
   function extension(name) {
     return (name.split(".").pop() || "AUD").substring(0, 3).toUpperCase();
+  }
+
+  function baseName(path) {
+    return String(path || "").split(/[\\/]/).pop() || String(path || "");
+  }
+
+  function formatDuration(value) {
+    return isNumericValue(value) ? `${Number(value).toFixed(2)} s` : "";
+  }
+
+  function formatProbability(value) {
+    return isNumericValue(value) ? Number(value).toFixed(3) : "";
+  }
+
+  function formatCsvNumber(value, digits) {
+    return isNumericValue(value) ? Number(value).toFixed(digits) : "";
+  }
+
+  function isNumericValue(value) {
+    return value !== "" && value !== null && value !== undefined && Number.isFinite(Number(value));
   }
 
   function formatBytes(bytes) {

@@ -297,6 +297,72 @@ select {
   opacity: 0.45;
 }
 
+.queue-message {
+  background: #fffbeb;
+  border: 1px solid #fde68a;
+  border-radius: 0.75rem;
+  color: #92400e;
+  font-size: 0.9rem;
+  font-weight: 750;
+  padding: 0.9rem 1rem;
+}
+
+.file-summary-stats {
+  align-items: center;
+  background: #ffffff;
+  border-bottom: 1px solid #e2e8f0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  padding: 0.9rem 1.5rem;
+}
+
+.file-stat,
+.file-prediction-pill {
+  border-radius: 999px;
+  display: inline-flex;
+  font-size: 0.74rem;
+  font-weight: 850;
+  line-height: 1;
+  padding: 0.42rem 0.65rem;
+  white-space: nowrap;
+}
+
+.file-stat-total {
+  background: #eff6ff;
+  color: #1d4ed8;
+}
+
+.file-stat-positive,
+.file-prediction-positive {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.file-stat-negative,
+.file-prediction-negative {
+  background: #f1f5f9;
+  color: #475569;
+}
+
+.file-stat-error,
+.file-prediction-error {
+  background: #ffe4e6;
+  color: #be123c;
+}
+
+.file-summary-positive {
+  background: rgba(236, 253, 245, 0.72);
+}
+
+.file-summary-negative {
+  background: #ffffff;
+}
+
+.file-summary-error {
+  background: rgba(255, 241, 242, 0.74);
+}
+
 .canvas-actions {
   align-items: center;
   display: flex;

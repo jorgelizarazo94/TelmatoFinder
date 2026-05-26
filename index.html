@@ -19,11 +19,11 @@
   <link rel="preload" as="image" href="img/flag-py.png">
   <link rel="preload" as="image" href="img/symbol-aymara.svg">
   <link rel="preload" as="image" href="img/symbol-quechua.svg">
-  <link rel="stylesheet" href="css/style.css?v=20260521-metadata3">
+  <link rel="stylesheet" href="css/style.css?v=20260525-folder-summary">
   <script src="https://cdn.tailwindcss.com"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/onnxruntime-web/dist/ort.min.js"></script>
   <script defer src="https://unpkg.com/lucide@latest"></script>
-  <script defer src="js/app.js?v=20260521-metadata3"></script>
+  <script defer src="js/app.js?v=20260525-folder-summary"></script>
 </head>
 <body class="min-h-screen bg-slate-50 text-slate-900 font-sans pb-12 relative overflow-x-hidden">
   <div id="accessModal" class="fixed inset-0 bg-slate-950/88 backdrop-blur-md z-[850] flex items-center justify-center p-4">
@@ -272,6 +272,38 @@
           <div id="progressBar" class="bg-emerald-600 h-2.5 rounded-full transition-all duration-300" style="width: 0%"></div>
         </div>
         <div id="queueList" class="max-h-56 overflow-y-auto pr-2 space-y-2"></div>
+      </div>
+    </section>
+
+    <section id="fileSummaryPanel" class="hidden bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+      <div class="border-b border-slate-200 bg-slate-50/80 px-6 py-4 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
+        <div>
+          <h2 class="font-bold text-slate-800 text-lg flex items-center gap-2">
+            <i data-lucide="list-checks" class="w-5 h-5 text-emerald-700"></i>
+            <span data-i18n="fileSummaryTitle">Resumen por archivo</span>
+          </h2>
+          <p id="fileSummaryText" class="text-sm text-slate-500 font-medium mt-0.5">0 archivos analizados.</p>
+        </div>
+        <button id="downloadFileCsvButton" class="w-full lg:w-auto items-center justify-center flex gap-2 px-4 py-2 bg-emerald-700 text-white rounded-lg hover:bg-emerald-800 transition font-bold shadow-sm text-sm">
+          <i data-lucide="download" class="w-4 h-4"></i>
+          <span data-i18n="downloadFileCsv">Descargar CSV por archivo</span>
+        </button>
+      </div>
+      <div class="file-summary-stats" id="fileSummaryStats"></div>
+      <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse">
+          <thead>
+            <tr class="bg-slate-50 text-slate-500 text-xs uppercase tracking-wider border-b border-slate-200">
+              <th class="px-6 py-4 font-bold" data-i18n="file">Archivo</th>
+              <th class="px-6 py-4 font-bold text-center" data-i18n="folderPrediction">Rana</th>
+              <th class="px-6 py-4 font-bold text-center" data-i18n="folderEvents">Eventos</th>
+              <th class="px-6 py-4 font-bold text-center" data-i18n="folderMaxProb">Prob. máx.</th>
+              <th class="px-6 py-4 font-bold text-center" data-i18n="folderStatus">Estado</th>
+              <th class="px-6 py-4 font-bold text-center" data-i18n="duration">Duración</th>
+            </tr>
+          </thead>
+          <tbody id="fileSummaryBody" class="divide-y divide-slate-100 text-slate-700 bg-white"></tbody>
+        </table>
       </div>
     </section>
 
